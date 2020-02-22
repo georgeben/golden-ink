@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import SignIn from '../views/SignIn.vue';
+import Onboarding from '../views/Onboarding.vue';
+import CompleteProfile from '@/components/Onboarding/CompleteProfile.vue';
 
 Vue.use(VueRouter)
 
@@ -9,6 +12,22 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/signin',
+    component: SignIn
+  },
+  {
+    path: '/onboarding',
+    name: 'Onboarding',
+    component: Onboarding,
+    children: [
+      {
+        path: 'profile',
+        name: 'complete-profile',
+        component: CompleteProfile,
+      }
+    ]
   },
   {
     path: '/about',
