@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import SignIn from '../views/SignIn.vue';
 import Onboarding from '../views/Onboarding.vue';
 import CompleteProfile from '@/components/Onboarding/CompleteProfile.vue';
+import Interests from '@/components/Onboarding/Interests.vue';
 
 Vue.use(VueRouter)
 
@@ -26,7 +27,12 @@ const routes = [
         path: 'profile',
         name: 'complete-profile',
         component: CompleteProfile,
-      }
+      },
+      {
+        path: 'interests',
+        name: 'follow-topics',
+        component: Interests,
+      },
     ]
   },
   {
