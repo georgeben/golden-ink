@@ -3,6 +3,7 @@
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <h1 class=" text-2xl">{{text}}</h1>
     <TopicCard :topic="topic" />
+    <StoryCard :story="story" />
   </div>
 </template>
 
@@ -10,7 +11,8 @@
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
 import TopicCard from '@/components/TopicCard.vue';
-import { Topic } from '../types'
+import StoryCard from '@/components/Story/StoryCard.vue';
+import { Topic, Story, User } from '../types'
 import { Component, Vue } from 'vue-property-decorator'
 
 /* export default {
@@ -22,6 +24,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({
   components: {
     TopicCard,
+    StoryCard,
   }
 })
 export default class Home extends Vue{
@@ -32,6 +35,55 @@ export default class Home extends Vue{
     imageUrl: 'https://digitalbarker.com/wp-content/uploads/2019/09/2018-07-10-image-35.jpg',
     slug: 'tech',
     followerCount: 30, 
+  }
+
+  user: User = {
+    createdAt: 1582057187505,
+    updatedAt: 1582295056415,
+    id: 1,
+    name: "George Kurobara",
+    email: "surplusforreal@gmail.com",
+    username: "changedman",
+    slug: "george-kurobara",
+    headline: "Software Craftsman",
+    bio: "A really soft boy",
+    profilePhotoUrl: "https://lh6.googleusercontent.com/-oreYI0JA7Yw/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdk3M5DboNPVfg5dgyw4ikm57WcAA/s96-c/photo.jpg",
+    emailNotificationSettings: {
+      daily: false,
+      weekly: true,
+      reactions: true
+    }
+  }
+
+  story: Story = {
+      comments: [],
+      likedBy: [],
+      createdAt: 1582122128804,
+      updatedAt: 1582122198939,
+      id: 2,
+      title: "Public announcement",
+      content: "This is a public announcement",
+      slug: "public-announcement",
+      private: false,
+      draft: false,
+      topic: this.topic,
+      author: {
+        createdAt: 1582057187505,
+        updatedAt: 1582295056415,
+        id: 1,
+        name: "George Kurobara",
+        email: "surplusforreal@gmail.com",
+        username: "changedman",
+        slug: "george-kurobara",
+        headline: "Software Craftsman",
+        bio: "A really soft boy",
+        profilePhotoUrl: "https://lh6.googleusercontent.com/-oreYI0JA7Yw/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdk3M5DboNPVfg5dgyw4ikm57WcAA/s96-c/photo.jpg",
+        emailNotificationSettings: {
+          daily: false,
+          weekly: true,
+          reactions: true
+        }
+      }
   }
 }
 </script>
