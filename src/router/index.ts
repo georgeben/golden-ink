@@ -7,6 +7,7 @@ import CompleteProfile from '@/components/Onboarding/CompleteProfile.vue';
 import Interests from '@/components/Onboarding/Interests.vue';
 import Feed from '../views/Feed.vue';
 import UserProfile from '../views/UserProfile.vue';
+import NewStory from '../views/NewStory.vue'
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,11 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: UserProfile,
+  },
+  {
+    path: '/new-story',
+    name: 'new-story',
+    component: NewStory,
   },
   {
     path: '/about',
