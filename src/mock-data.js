@@ -105,3 +105,29 @@ export const user = {
     reactions: true
   }
 }
+export const user2 = {
+  createdAt: 1582057187505,
+  updatedAt: 1582295056415,
+  id: 1,
+  name: "Ada James",
+  email: "agaj@gmail.com",
+  username: "adaj",
+  slug: "ada-james",
+  headline: "Software Craftsman",
+  bio: "A really soft boy",
+  profilePhotoUrl: "https://lh3.googleusercontent.com/GBV8S-ps_TSQ9QddpX-E5oLcOF07nkwN4Bv7lg0YCGxG_b4wfm9jGVPXss_s9J0z8EGXteazZUXz60iZS7-kA97d",
+  emailNotificationSettings: {
+    daily: false,
+    weekly: true,
+    reactions: true
+  }
+}
+
+export const notification = {
+  id: 1,
+  actionType: 'NEW_STORY',
+  forUser: user,
+  topic: topic,
+  story: feed[0],
+  fromUser: user2,
+}

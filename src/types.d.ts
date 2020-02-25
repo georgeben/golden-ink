@@ -49,3 +49,14 @@ export interface Story {
   likedBy?: User[] | [];
   comments?: Comment[] | [];
 }
+
+export interface Notification {
+  id: number;
+  actionType: string;
+  forUser: User;
+  topic?: Topic;
+  story?: Story;
+  fromUser?: User;
+  createdAt?: number;
+  updatedAt?: number;
+}
