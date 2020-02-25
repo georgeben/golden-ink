@@ -87,3 +87,21 @@ export const feed = [
     },
   },
 ];
+
+export const user = {
+  createdAt: 1582057187505,
+  updatedAt: 1582295056415,
+  id: 1,
+  name: "George Kurobara",
+  email: "surplusforreal@gmail.com",
+  username: "changedman",
+  slug: "george-kurobara",
+  headline: "Software Craftsman",
+  bio: "A really soft boy",
+  profilePhotoUrl: "https://lh6.googleusercontent.com/-oreYI0JA7Yw/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdk3M5DboNPVfg5dgyw4ikm57WcAA/s96-c/photo.jpg",
+  emailNotificationSettings: {
+    daily: false,
+    weekly: true,
+    reactions: true
+  }
+}

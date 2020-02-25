@@ -6,6 +6,7 @@ import Onboarding from '../views/Onboarding.vue';
 import CompleteProfile from '@/components/Onboarding/CompleteProfile.vue';
 import Interests from '@/components/Onboarding/Interests.vue';
 import Feed from '../views/Feed.vue';
+import UserProfile from '../views/UserProfile.vue';
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,11 @@ const routes = [
     path: '/feed',
     name: 'feed',
     component: Feed,
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: UserProfile,
   },
   {
     path: '/about',

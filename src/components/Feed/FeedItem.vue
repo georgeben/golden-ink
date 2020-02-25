@@ -12,7 +12,7 @@
           {{story.author.name}}
         </p>
       </div>
-      <div class="feed-item-actions">
+      <div class="feed-item-actions" v-if="actions">
         <button>
           Bookmark
         </button>
@@ -30,6 +30,7 @@ import { Story } from '../../types';
 @Component
 export default class FeedItem extends Vue { 
   @Prop({ required: true }) story!: Story;
+  @Prop({ type: Boolean, default: true }) actions!: boolean;
 }
 </script>
 
