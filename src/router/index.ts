@@ -9,6 +9,7 @@ import Feed from '../views/Feed.vue';
 import UserProfile from '../views/UserProfile.vue';
 import NewStory from '../views/NewStory.vue';
 import Notifications from '../views/Notifications.vue';
+import Saved from '../views/Saved.vue';
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,11 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: UserProfile,
+  },
+  {
+    path: '/saved',
+    name: 'saved',
+    component: Saved,
   },
   {
     path: '/notification',
