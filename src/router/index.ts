@@ -10,6 +10,7 @@ import UserProfile from '../views/UserProfile.vue';
 import NewStory from '../views/NewStory.vue';
 import Notifications from '../views/Notifications.vue';
 import Saved from '../views/Saved.vue';
+import Settings from '../views/Settings.vue';
 
 Vue.use(VueRouter)
 
@@ -54,6 +55,11 @@ const routes = [
     path: '/saved',
     name: 'saved',
     component: Saved,
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: Settings,
   },
   {
     path: '/notification',
