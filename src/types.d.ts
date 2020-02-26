@@ -60,3 +60,12 @@ export interface Notification {
   createdAt?: number;
   updatedAt?: number;
 }
+
+export interface Comment {
+  id: number;
+  user: User;
+  content: string;
+  story: Story;
+  parentCommentId?: Comment;
+  subComments?: Comment[];
+}

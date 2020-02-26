@@ -7,7 +7,7 @@
      <p @click="updatePage(2)">
        Notifications
      </p>
-     <p>
+     <p @click="updatePage(3)">
        Content
      </p>
      <p>
@@ -16,6 +16,7 @@
    </div>
    <ProfileSettings v-if="page == 1" />
    <NotificationSettings v-if="page == 2" />
+   <ContentSettings v-if="page == 3" />
  </div>
 </template>
  
@@ -23,11 +24,13 @@
 import { Component, Vue} from 'vue-property-decorator'; 
 import ProfileSettings from './ProfileSettings.vue';
 import NotificationSettings from './NotificationSettings.vue';
+import ContentSettings from './ContentSettings.vue';
 
 @Component({
   components:{
     ProfileSettings,
     NotificationSettings,
+    ContentSettings
   }
 })
 export default class SettingsUI extends Vue { 
