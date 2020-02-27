@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="container mx-auto home mt-12">
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
     <h1 class=" text-2xl">{{ username }}</h1>
     <TopicCard :topic="topic" />

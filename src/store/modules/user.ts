@@ -3,7 +3,7 @@ import { User } from '../../types';
 import { googleSignIn, fetchCurrentUserData } from '../../api/user-api-service';
 import storage from '@/utils/storage';
 import { TOKEN } from '@/constants';
-import { setAuthHeader } from '@/utils/httpClient';
+import { setAuthHeader, removeAuthHeader } from '@/utils/httpClient';
 
 @Module({ namespaced: true, name: 'user' })
 class UserStore extends VuexModule {
@@ -19,6 +19,12 @@ class UserStore extends VuexModule {
   @Mutation
   public SET_LOGGED_IN_STATUS(status: boolean): void {
     this.isLoggedIn = status;
+  }
+
+  @Mutation
+  RESET_STATE(): void {
+    this.currentUser = null;
+    this.isLoggedIn = false;
   }
 
   @Action
@@ -47,6 +53,13 @@ class UserStore extends VuexModule {
     } catch (error) {
       console.log('An error occurred while fetching user data')
     }
+  }
+
+  @Action
+  logout() {
+    this.context.commit('RESET_STATE');
+    removeAuthHeader();
+    storage.removeState(TOKEN);
   }
 }
 
