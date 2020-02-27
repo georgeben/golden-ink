@@ -35,7 +35,7 @@
       </div>
 
       <div class="comments">
-        <CommentCard v-for="comment in comments" :key="comment.id" :comment="comment" />
+        <CommentCard v-for="comment in story.comments" :key="comment.id" :comment="comment" />
       </div>
     </div>
   </div>
@@ -45,7 +45,8 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { VueEditor } from 'vue2-editor';
 import { user, feed } from '../mock-data';
-import CommentCard from '@/components/Comments/CommentCard.vue'
+import CommentCard from '@/components/Comments/CommentCard.vue';
+import { getSingleStory } from '../api/stories';
 
 @Component({
   components: {
@@ -78,6 +79,17 @@ export default class ViewStory extends Vue {
 
     }
   ]
+
+  async created(): Promise<void>{
+    const storySlug: string = this.$route.params.story;
+    // Get the story
+    try {
+      const story = await getSingleStory(storySlug);
+      this.story = story;
+    } catch (error) {
+      console.log('Oh no an error', error)
+    }
+  }
 }
 </script>
 
