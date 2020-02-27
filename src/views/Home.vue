@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
-    <h1 class=" text-2xl">{{ text }}</h1>
+    <h1 class=" text-2xl">{{ username }}</h1>
     <TopicCard :topic="topic" />
     <StoryCard v-for="story in stories" :key="story.slug" :story="story" />
   </div>
@@ -13,6 +13,8 @@ import StoryCard from '@/components/Story/StoryCard.vue';
 import { Topic, Story, User } from '../types';
 import { Component, Vue } from 'vue-property-decorator';
 import { getStories } from '../api/stories';
+import { getModule } from 'vuex-module-decorators'
+import UserModule from '../store/modules/user';
 
 @Component({
   components: {
@@ -22,6 +24,10 @@ import { getStories } from '../api/stories';
 })
 export default class Home extends Vue {
   private text = 'This is my homepage. Yeah';
+  userModule = getModule(UserModule, this.$store);
+  username = this.userModule.name;
+
+
   topic: Topic = {
     id: 1,
     name: 'Tech',
