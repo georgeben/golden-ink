@@ -12,6 +12,11 @@ import Notifications from '../views/Notifications.vue';
 import Saved from '../views/Saved.vue';
 import Settings from '../views/Settings.vue';
 import ViewStory from '../views/ViewStory.vue';
+import store from '../store';
+import userModule from '../store/modules/user';
+import { getModule } from 'vuex-module-decorators';
+
+const userStore = getModule(userModule, store);
 
 Vue.use(VueRouter)
 
@@ -76,6 +81,9 @@ const routes = [
     path: '/new-story',
     name: 'new-story',
     component: NewStory,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/about',
@@ -91,5 +99,28 @@ const router = new VueRouter({
   routes,
   mode: 'history',
 })
+
+router.beforeEach((to, from, next) => {
+  const loggedIn = userStore.isLoggedIn;
+  const user = userStore.currentUser;
+  // Don't allow logged in users to view pages for only guests e.g signup, login
+  if (loggedIn && to.matched.some(record => record.meta.guest)) {
+    next({
+      path: '/'
+    })
+  }
+
+  // Don't allow guests (people who have not signed in to view protected routes)
+  if (!loggedIn && to.matched.some(record => record.meta.requiresAuth)) {
+    next({
+      path: '/signin',
+      query: {
+        redirect: to.fullPath
+      }
+    })
+  }
+
+  next()
+});
 
 export default router
