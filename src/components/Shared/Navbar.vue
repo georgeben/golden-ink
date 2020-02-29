@@ -1,7 +1,7 @@
 <template>
   <header>
     <nav
-      class="navbar fixed top-0 left-0 right-0 w-full z-10"
+      class="navbar fixed top-0 left-0 right-0 w-full z-10 lg:mx-4"
       :class="[
         showNavbar ? '' : 'navbar-hidden',
         lastScrollPosition > navbarHeight ? 'nav-solid' : '',
@@ -22,12 +22,12 @@
             <input
               type="search"
               placeholder="Search"
-              class="border border-gray-400 w-10/12 ml-3 py-1 px-4  rounded-full focus:outline-none focus:shadow-outline"
+              class=" shadow-lg w-10/12 ml-3 py-1 px-4  rounded-full focus:outline-none focus:shadow-outline bg-white"
             />
           </div>
 
           <div class="flex">
-            <ProfileDropdown class="md:hidden sm:mr-4" />
+            <ProfileDropdown class="md:hidden sm:mr-4" @logout="logUserOut" />
             <button
               type="button"
               class="block text-dark px-2 hover:text-dark-100 focus:text-dark-100 md:hidden focus:outline-none focus:shadow-outline"
@@ -63,7 +63,7 @@
             class="block p-2 rounded-sm hover:bg-light-green md:ml-2"
             >Notifications</router-link
           >
-          <ProfileDropdown class="md:ml-2 hidden md:block" />
+          <ProfileDropdown class="md:ml-2 hidden md:block" @logout="logUserOut" />
         </div>
       </div>
     </nav>
@@ -102,8 +102,8 @@ export default class Navbar extends Vue {
   }
 
   async logUserOut() {
-    this.$router.push('/');
     this.userStore.logout();
+    this.$router.push('/');
   }
 
   mounted() {
@@ -129,5 +129,9 @@ export default class Navbar extends Vue {
 .navbar.navbar-hidden {
   box-shadow: none;
   transform: translate3d(0, -100%, 0);
+}
+
+.search-box input::placeholder{
+  color: #4a5568
 }
 </style>

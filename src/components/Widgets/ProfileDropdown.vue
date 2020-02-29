@@ -26,9 +26,9 @@
         </router-link>
       </p>
 
-      <router-link to="/profile" class="block px-3 text-red-600 mx-auto my-2"
+      <p @click="$emit('logout')" class="block px-3 text-red-600 mx-auto my-2 cursor-pointer"
         >Log out
-      </router-link>
+      </p>
     </div>
   </div>
 </template>

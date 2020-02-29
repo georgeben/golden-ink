@@ -2,7 +2,8 @@
 @tailwind components;
 
 .navbar.nav-solid {
-  @apply bg-white shadow-lg;
+  @apply shadow-lg;
+  background:linear-gradient(90deg, #FAD22E 0%, #FA982E 95.42%);
 }
 
 @tailwind utilities;
