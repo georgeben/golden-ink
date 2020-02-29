@@ -27,7 +27,7 @@
           </div>
 
           <div class="flex">
-            <ProfileDropdown class="md:hidden sm:mr-4" @logout="logUserOut" />
+            <ProfileDropdown v-if="currentUser" :profileImg="currentUser.profilePhotoUrl" class="md:hidden sm:mr-4" @logout="logUserOut" />
             <button
               type="button"
               class="block text-dark px-2 hover:text-dark-100 focus:text-dark-100 md:hidden focus:outline-none focus:shadow-outline"
@@ -56,14 +56,20 @@
           <router-link
             to="/new-story"
             class="block p-2 rounded-sm hover:bg-light-green md:ml-2"
-            >New story</router-link
+            >
+            <div class="flex items-center">
+              <img class="w-8 mr-3" src="../../assets/images/plus.png" alt="">
+              <span> New story</span>
+            </div>
+          </router-link
           >
           <router-link
             to="/notification"
             class="block p-2 rounded-sm hover:bg-light-green md:ml-2"
+            v-if="currentUser"
             >Notifications</router-link
           >
-          <ProfileDropdown class="md:ml-2 hidden md:block" @logout="logUserOut" />
+          <ProfileDropdown v-if="currentUser" :profileImg="currentUser.profilePhotoUrl" class="md:ml-2 hidden md:block" @logout="logUserOut" />
         </div>
       </div>
     </nav>
@@ -89,6 +95,7 @@ export default class Navbar extends Vue {
   lastScrollPosition = 0;
   navbarHeight = 61;
   isLoggedIn = this.userStore.isLoggedIn;
+  currentUser = this.userStore.currentUser;
 
   handleScroll() {
     const currentScrollPosition =
