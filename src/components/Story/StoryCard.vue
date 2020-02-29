@@ -1,11 +1,11 @@
 <template>
-  <div class="story-card rounded-story mt-4 shadow-xl p-3 w-4/5 mx-auto xs:w-45p md:w-32p">
+  <div class="story-card rounded-story mt-4 shadow-xl p-3" :class="fullWidth? ' w-full': 'w-4/5 mx-auto xs:w-45p md:w-32p'">
     <div class="story-image">
       <img src="../../assets/images/tech_bg.png" alt="story image" class="rounded-story">
     </div>
     <div class="story-details my-1">
       <p class="tag text-sm mt-2 bg-blue-300 text-blue-700 px-3 rounded-full inline-block">#{{story.topic.name}}</p>
-      <router-link to="/view-story"><h1 class=" text-xl font-bold">{{story.title}}</h1></router-link>
+      <router-link to="/view-story"><h1 class="text-xl font-bold">{{story.title}}</h1></router-link>
       <p class=" text-gray-600">{{story.content.slice(0, 50)}}..</p>
 
       <div class="author-info flex items-center">
@@ -25,6 +25,7 @@ import { Story } from '../../types';
 @Component
 export default class StoryCard extends Vue {
   @Prop({ required: true }) story!: Story;
+  @Prop({ default: false }) fullWidth!: boolean;
 }
 </script>
 

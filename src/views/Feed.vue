@@ -1,11 +1,13 @@
 <template>
-  <div class="feed">
-    <h3>Feed</h3>
-    <FeedItem v-for="story in feed" :key="story.slug" :story="story" />
-    <TopicList />
-    <div class="featured-stories">
-      <h3>Featured</h3>
-      <StoryCard :story="feed[0]" />
+  <div class="feed md:flex md:justify-between md:items-start px-4 bg-gray-200 pt-20 pb-64">
+    <TopicList class="w-full md:w-1/6 mb-4" />
+    <div class="main-feed w-full md:w-3/5 mb-4">
+      <h3 class="text-lg font-semibold">Your Feed</h3>
+      <FeedItem v-for="story in feed" :key="story.slug" :story="story" />
+    </div>
+    <div class="featured-stories w-full md:w-1/5">
+      <h3 class="text-lg font-semibold">Featured</h3>
+      <StoryCard :story="feed[0]" :fullWidth="true" />
     </div>
   </div>
 </template>
