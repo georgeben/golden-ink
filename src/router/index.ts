@@ -28,7 +28,10 @@ const routes = [
   },
   {
     path: '/signin',
-    component: SignIn
+    component: SignIn,
+    meta: {
+      guest: true
+    }
   },
   {
     path: '/onboarding',
@@ -86,7 +89,7 @@ const routes = [
     name: 'new-story',
     component: NewStory,
     meta: {
-      // requiresAuth: true,
+      requiresAuth: true,
     },
   },
   {

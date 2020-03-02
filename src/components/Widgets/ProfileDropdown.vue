@@ -7,7 +7,7 @@
       @blur="onBlur"
     >
       <img
-        src="../../assets/images/userPhoto.jpeg"
+        :src="profileImg"
         alt="User profile image"
         class="w-8 h-8 sm:w-10 sm:h-10 object-cover rounded-full focus:outline-none focus:shadow-outline"
       />
@@ -26,17 +26,21 @@
         </router-link>
       </p>
 
-      <p @click="$emit('logout')" class="block px-3 text-red-600 mx-auto my-2 cursor-pointer"
-        >Log out
+      <p
+        @click="$emit('logout')"
+        class="block px-3 text-red-600 mx-auto my-2 cursor-pointer"
+      >
+        Log out
       </p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 @Component
 export default class DropDown extends Vue {
+  @Prop({ required: true, type: String }) profileImg!: string;
   isOpen = false;
 
   dropDownLinks = [
