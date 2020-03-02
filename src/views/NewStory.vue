@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-gray-200 py-24 md:px-10 px-3">
     <Editor />
   </div>
 </template>
