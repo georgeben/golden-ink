@@ -1,6 +1,6 @@
 <template>
-  <div class="editor">
-    <div class="options flex justify-end">
+  <div class="editor md:w-3/4 md:mx-auto">
+    <div class="options flex justify-end hidden xs:flex">
       <button class="mr-3 border-2 text-accent border-accent py-1 px-4 hover:bg-gray-300">Save as Private</button>
       <button class="mr-3 border-2 text-accent border-accent py-1 px-4 hover:bg-gray-300">Save as draft</button>
       <button class="mr-3 border-2 text-accent border-accent py-1 px-4 hover:bg-gray-300">Publish</button>
@@ -9,6 +9,13 @@
     <div class="editor-area bg-white shadow-xl rounded-lg mt-6">
       <input type="text" class="title text-3xl px-3 font-semibold w-full border-b" placeholder="Title" v-model="story.title">
       <vue-editor class="h-screen" v-model="story.content" placeholder="Write your story"></vue-editor>
+    </div>
+    <div class="mt-4 xs:hidden">
+      <div class="options flex flex-col justify-end">
+      <button class="mr-3 mb-3 border-2 text-accent border-accent py-1 px-4 hover:bg-gray-300">Save as Private</button>
+      <button class="mr-3 mb-3 border-2 text-accent border-accent py-1 px-4 hover:bg-gray-300">Save as draft</button>
+      <button class="mr-3 mb-3 border-2 text-accent border-accent py-1 px-4 hover:bg-gray-300">Publish</button>
+    </div>
     </div>
   </div>
 </template>
