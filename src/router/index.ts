@@ -36,6 +36,10 @@ const routes = [
     component: Onboarding,
     children: [
       {
+        path: '',
+        redirect: 'profile'
+      },
+      {
         path: 'profile',
         name: 'complete-profile',
         component: CompleteProfile,
@@ -82,7 +86,7 @@ const routes = [
     name: 'new-story',
     component: NewStory,
     meta: {
-      requiresAuth: true,
+      // requiresAuth: true,
     },
   },
   {

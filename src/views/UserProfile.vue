@@ -1,14 +1,21 @@
 <template>
-  <div class="profile-page">
-    <UserProfileInfo />
+  <div class="profile-page bg-gray-200 py-20 px-3">
+    <UserProfileInfo class="mb-6 md:w-3/4 mx-auto" />
 
-    <h3>Your stories</h3>
-    <FeedItem v-for="story in userStories" :key="story.slug" :story="story" :actions="false"/>
+    <div class="user-activity md:w-3/4 mx-auto">
+      <h3 class="text-lg font-semibold">Your stories</h3>
+      <FeedItem
+        v-for="story in userStories"
+        :key="story.slug"
+        :story="story"
+        :actions="false"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue} from 'vue-property-decorator'; 
+import { Component, Vue } from 'vue-property-decorator';
 import UserProfileInfo from '@/components/UserProfile/UserProfileInfo.vue';
 import FeedItem from '@/components/Feed/FeedItem.vue';
 import { feed } from '../mock-data';
@@ -17,13 +24,11 @@ import { Story } from '../types';
   components: {
     UserProfileInfo,
     FeedItem,
-  }
+  },
 })
-export default class UserProfile extends Vue { 
+export default class UserProfile extends Vue {
   userStories: Story[] = feed;
- }
+}
 </script>
 
-<style>
-
-</style>
+<style></style>
