@@ -1,9 +1,10 @@
 <template>
   <div>
-    <div class="tabs">
-      <ul>
-        <li v-for="tab in tabs" :class="{ 'is-active': tab.isActive }" :key="tab.name">
-          <a :href="tab.href" @click="selectTab(tab)">{{ tab.name }}</a>
+    <div class="tabs lg:w-5/6 lg:mx-auto">
+      <ul class="flex justify-around pt-2">
+        <li v-for="tab in tabs" class="mb-2" :class="tab.isActive ? ' font-medium' : ''" :key="tab.name">
+          <a class="cursor-pointer" :href="tab.href" @click="selectTab(tab)">{{ tab.name }}</a>
+          <div v-if="tab.isActive" class="underline h-1 bg-gray-600"></div>
         </li>
       </ul>
     </div>
@@ -31,4 +32,5 @@ export default class Tabs extends Vue {
  }
 </script>
 
-<style></style>
+<style>
+</style>

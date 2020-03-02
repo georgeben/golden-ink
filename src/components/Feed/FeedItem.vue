@@ -1,6 +1,6 @@
 <template>
   <div class="feed-item xs:flex bg-white shadow-xl rounded-lg my-4 p-3">
-    <div class="story-image w-full mb-3 xs:w-2/5 md:w-1/4">
+    <div class="story-image w-full mb-3 xs:w-2/5 md:w-1/5">
       <img
         class="w-full rounded-lg"
         src="../../assets/images/writing.jpeg"
