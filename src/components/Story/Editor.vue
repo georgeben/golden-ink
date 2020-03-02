@@ -1,5 +1,5 @@
 <template>
-  <div class="editor h-screen">
+  <div class="editor">
     <div class="options flex justify-end">
       <button class="mr-3 border-2 text-accent border-accent py-1 px-4 hover:bg-gray-300">Save as Private</button>
       <button class="mr-3 border-2 text-accent border-accent py-1 px-4 hover:bg-gray-300">Save as draft</button>
@@ -7,8 +7,8 @@
     </div>
 
     <div class="editor-area bg-white shadow-xl rounded-lg mt-6">
-      <input type="text" class="title text-3xl px-3 font-semibold w-full border border-gray-400" placeholder="Title" v-model="story.title">
-      <vue-editor v-model="story.content" placeholder="Write your story"></vue-editor>
+      <input type="text" class="title text-3xl px-3 font-semibold w-full border-b" placeholder="Title" v-model="story.title">
+      <vue-editor class="h-screen" v-model="story.content" placeholder="Write your story"></vue-editor>
     </div>
   </div>
 </template>
@@ -36,5 +36,15 @@ export default class Editor extends Vue {
 </script>
 
 <style>
+.ql-container.ql-snow{
+  border: none !important;
+}
 
+.ql-toolbar.ql-snow{
+  /* border: none !important; */
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
 </style>
