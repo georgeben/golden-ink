@@ -1,14 +1,21 @@
 <template>
   <div class="mx-auto home">
-    <div class="jumbotron px-12 lg:mx-4 rounded-b-md shadow-xl py-20 mb-12">
-      <div class="flex">
-        <div class="intro-text mt-20">
+    <div class="jumbotron px-3 xs:px-6 md:px-8 lg:mx-4 rounded-b-md shadow-xl py-20 mb-12">
+      <div class=" md:flex">
+        <div class="intro-text mt-20 md:w-3/5 lg:w-1/2">
           <h1
             class="font-black text-gray-800 my-6 leading-tight text-3xl md:text-5xl border-gray-400"
           >
-            The Best Platform for<br />
+            The Best Platform for <br class="hidden lg:inline" />
             <span class="text-accent underline">writers</span>
           </h1>
+          <div class="editor-img my-6 md:hidden">
+          <img
+            src="../assets/images/editor.jpg"
+            alt="Text editor"
+            class="shadow-xl"
+          />
+        </div>
           <p
             class="text-xl text-gray-800 leading-relaxed mb-6 w-11/12 md:w-1/2"
           >
@@ -24,7 +31,7 @@
           </router-link>
         </div>
 
-        <div class="editor-img mt-24">
+        <div class="editor-img hidden md:block sm:w-2/5 lg:w-1/2 mt-24">
           <img
             src="../assets/images/editor.jpg"
             alt="Text editor"
@@ -33,7 +40,7 @@
         </div>
       </div>
     </div>
-    <div class="container mx-3 xs:mx-auto">
+    <div class="container  xs:mx-auto">
       <div class="stories flex flex-wrap my-8">
         <StoryCard v-for="story in stories" :key="story.slug" :story="story" />
       </div>
