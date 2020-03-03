@@ -58,13 +58,22 @@
           </div>
         </div>
         <div
-          class="text-sm mt-2 md:flex"
+          class="text-sm mt-2 md:flex md:items-center"
           :class="isMobileNavOpen ? '' : 'hidden'"
         >
           <router-link
-            to="/new-story"
+            to="/signin"
             class="block p-2 rounded-sm hover:bg-light-green md:ml-2"
+            v-if="!currentUser"
           >
+            <button
+              class="bg-accent hover:bg-blue-600 w-32 text-white text-base py-2 px-3 rounded-md"
+            >
+              Sign in
+            </button>
+          </router-link>
+
+          <router-link to="/new-story" v-if="currentUser">
             <div class="flex items-center">
               <img class="w-8 mr-3" src="../../assets/images/plus.png" alt="" />
               <span> New story</span>

@@ -66,14 +66,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import NotificationSettings from './NotificationSettings.vue';
-import ContentSettings from './ContentSettings.vue';
 import Switches from 'vue-switches';
 
 @Component({
   components: {
-    NotificationSettings,
-    ContentSettings,
     Switches,
   },
 })

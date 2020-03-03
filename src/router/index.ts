@@ -36,27 +36,42 @@ const routes = [
   {
     path: '/topics/interests',
     name: 'interests',
-    component: FollowTopics
+    component: FollowTopics,
+    meta: {
+      requiresAuth: true,
+    }
   },
   {
     path: '/feed',
     name: 'feed',
     component: Feed,
+    meta: {
+      requiresAuth: true,
+    }
   },
   {
     path: '/profile',
     name: 'profile',
     component: UserProfile,
+    meta: {
+      requiresAuth: true,
+    }
   },
   {
     path: '/profile/edit',
     name: 'edit-profile',
     component: UpdateProfile,
+    meta: {
+      requiresAuth: true,
+    }
   },
   {
     path: '/saved',
     name: 'saved',
     component: Saved,
+    meta: {
+      requiresAuth: true,
+    }
   },
   {
     path: '/view/:story',
@@ -67,11 +82,17 @@ const routes = [
     path: '/settings',
     name: 'settings',
     component: Settings,
+    meta: {
+      requiresAuth: true,
+    }
   },
   {
     path: '/notification',
     name: 'notification',
     component: Notifications,
+    meta: {
+      requiresAuth: true,
+    }
   },
   {
     path: '/new-story',
@@ -100,14 +121,14 @@ router.beforeEach((to, from, next) => {
   const loggedIn = userStore.isLoggedIn;
   const user = userStore.currentUser;
   // Don't allow logged in users to view pages for only guests e.g signup, login
-  if (loggedIn && to.matched.some(record => record.meta.guest)) {
+  if (loggedIn && user && to.matched.some(record => record.meta.guest)) {
     next({
       path: '/'
     })
   }
 
   // Don't allow guests (people who have not signed in to view protected routes)
-  if (!loggedIn && to.matched.some(record => record.meta.requiresAuth)) {
+  if (!loggedIn && !user && to.matched.some(record => record.meta.requiresAuth)) {
     next({
       path: '/signin',
       query: {

@@ -20,6 +20,7 @@ export interface User {
   headline?: string;
   bio?: string;
   profilePhotoUrl: string;
+  topics?: Topic[];
   emailNotificationSettings?: EmailNotification;
   createdAt: number;
   updatedAt: number;

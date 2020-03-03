@@ -61,15 +61,22 @@ export default class SignIn extends Vue {
 
     if (this.currentUser) {
       // User signed in
-       if(!this.$route.query.redirect){
-        this.$router.replace('/')
-      }
-      this.$router.replace((this.$route.query.redirect as string))
+      if (
+        this.currentUser.bio &&
+        this.currentUser.username &&
+        this.currentUser.headline
+      ) {
+        if (!this.$route.query.redirect) {
+          return this.$router.replace('/');
+        }
+        return this.$router.replace(this.$route.query.redirect as string);
+      } 
+      this.$router.push('/profile/edit')
     }
   }
 
   onFailure(error: any) {
-    console.log('Google sign in failed');
+    console.log('Google sign in failed', error);
   }
 }
 </script>

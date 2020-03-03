@@ -49,9 +49,9 @@ class UserStore extends VuexModule {
     try {
       const user: User = await fetchCurrentUserData();
       console.log({ user });
-      this.context.commit('SET_USER', user)
+      this.context.commit('SET_USER', user);
     } catch (error) {
-      console.log('An error occurred while fetching user data')
+      console.log('An error occurred while fetching user data');
     }
   }
 
@@ -60,6 +60,19 @@ class UserStore extends VuexModule {
     this.context.commit('RESET_STATE');
     removeAuthHeader();
     storage.removeState(TOKEN);
+  }
+
+  get isProfileComplete(): boolean {
+    if (this.currentUser) {
+      return this.currentUser.username
+        ? this.currentUser.bio
+          ? this.currentUser.headline
+            ? true
+            : false
+          : false
+        : false;
+    }
+    return false;
   }
 }
 
