@@ -3,8 +3,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import SignIn from '../views/SignIn.vue';
 import Onboarding from '../views/Onboarding.vue';
-import CompleteProfile from '@/components/Onboarding/CompleteProfile.vue';
-import Interests from '@/components/Onboarding/Interests.vue';
+import UpdateProfile from '@/components/UserProfile/UpdateProfile.vue';
+import FollowTopics from '@/components/Topic/FollowTopics.vue';
 import Feed from '../views/Feed.vue';
 import UserProfile from '../views/UserProfile.vue';
 import NewStory from '../views/NewStory.vue';
@@ -34,25 +34,9 @@ const routes = [
     }
   },
   {
-    path: '/onboarding',
-    name: 'Onboarding',
-    component: Onboarding,
-    children: [
-      {
-        path: '',
-        redirect: 'profile'
-      },
-      {
-        path: 'profile',
-        name: 'complete-profile',
-        component: CompleteProfile,
-      },
-      {
-        path: 'interests',
-        name: 'follow-topics',
-        component: Interests,
-      },
-    ]
+    path: '/topics/interests',
+    name: 'interests',
+    component: FollowTopics
   },
   {
     path: '/feed',
@@ -63,6 +47,11 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: UserProfile,
+  },
+  {
+    path: '/profile/edit',
+    name: 'edit-profile',
+    component: UpdateProfile,
   },
   {
     path: '/saved',

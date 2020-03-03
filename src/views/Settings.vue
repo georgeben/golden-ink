@@ -1,5 +1,5 @@
 <template>
- <div class='container'>
+ <div class="bg-gray-200 pt-20 px-3">
    <SettingsUI />
  </div>
 </template>
