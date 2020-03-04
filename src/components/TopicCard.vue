@@ -1,5 +1,7 @@
 <template>
-  <div class="topic shadow-xl rounded-md w-4/5 mx-auto my-4 sm:w-5/12 md:w-32p lg:w-1/4">
+  <div
+    class="topic shadow-xl rounded-md w-4/5 mx-auto my-4 sm:w-5/12 md:w-32p lg:w-1/4"
+  >
     <div class="topic-img">
       <img
         :src="topic.imageUrl"
@@ -11,7 +13,9 @@
       <h1 class=" text-xl font-bold">{{ topic.name }}</h1>
       <button
         class=" border-2 border-accent px-5 py-1 rounded-full focus:outline-none focus:shadow-outline"
-        :class="isFollowing? 'bg-accent border-accent text-white': 'text-accent'"
+        :class="
+          isFollowing ? 'bg-accent border-accent text-white' : 'text-accent'
+        "
         @click="handleFollow"
       >
         {{ isFollowing ? 'Unfollow' : 'Follow' }}
@@ -24,18 +28,30 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator';
-import { Topic } from '../types';
+import { Topic, User } from '../types';
+import { namespace } from 'vuex-class';
+import { getModule } from 'vuex-module-decorators';
+import userModule from '@/store/modules/user';
+const userNamespace = namespace('user');
 @Component
 export default class TopicCard extends Vue {
   @Prop({ required: true }) topic!: Topic;
-  isFollowing = true;
+  @userNamespace.State('currentUser') user!: User;
+  userStore = getModule(userModule, this.$store);
 
-  handleFollow() {
+  async handleFollow() {
     if (this.isFollowing) {
-      return (this.isFollowing = false);
-      // Un-follow the topic
+      await this.userStore.unfollowTopic(this.topic.slug);
+    } else {
+      await this.userStore.followTopic(this.topic.slug);
     }
-    this.isFollowing = true;
+  }
+
+  get isFollowing(): boolean {
+    if (this.user.topics?.some((topic) => topic.id === this.topic.id)) {
+      return true;
+    }
+    return false;
   }
 }
 </script>

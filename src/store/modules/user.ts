@@ -1,6 +1,12 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
-import { User } from '../../types';
-import { googleSignIn, fetchCurrentUserData, updateUserProfile } from '../../api/user-api-service';
+import { User, Topic } from '../../types';
+import {
+  googleSignIn,
+  fetchCurrentUserData,
+  updateUserProfile,
+  followTopic,
+  unfollowTopic
+} from '../../api/user-api-service';
 import storage from '@/utils/storage';
 import { TOKEN } from '@/constants';
 import { setAuthHeader, removeAuthHeader } from '@/utils/httpClient';
@@ -19,6 +25,12 @@ class UserStore extends VuexModule {
   @Mutation
   public SET_LOGGED_IN_STATUS(status: boolean): void {
     this.isLoggedIn = status;
+  }
+
+  @Mutation SET_USER_TOPICS(topics: Topic[]): void {
+    if (this.currentUser) {
+      this.currentUser.topics = topics;
+    }
   }
 
   @Mutation
@@ -62,7 +74,27 @@ class UserStore extends VuexModule {
       this.context.commit('SET_USER', user);
       return user;
     } catch (error) {
-      console.log('An error occurred while updating profile')
+      console.log('An error occurred while updating profile', error)
+    }
+  }
+
+  @Action
+  async followTopic(topicSlug: string) {
+    try {
+      const updatedTopics = await followTopic(topicSlug);
+      this.context.commit('SET_USER_TOPICS', updatedTopics);
+    } catch (error) {
+      console.log('An error occured while following a topic', error)
+    }
+  }
+
+  @Action
+  async unfollowTopic(topicSlug: string) {
+    try {
+      const updatedTopics = await unfollowTopic(topicSlug);
+      this.context.commit('SET_USER_TOPICS', updatedTopics);
+    } catch (error) {
+      console.log('An error occured while unfollowing a topic', error)
     }
   }
 
