@@ -1,6 +1,6 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
 import { User } from '../../types';
-import { googleSignIn, fetchCurrentUserData } from '../../api/user-api-service';
+import { googleSignIn, fetchCurrentUserData, updateUserProfile } from '../../api/user-api-service';
 import storage from '@/utils/storage';
 import { TOKEN } from '@/constants';
 import { setAuthHeader, removeAuthHeader } from '@/utils/httpClient';
@@ -52,6 +52,17 @@ class UserStore extends VuexModule {
       this.context.commit('SET_USER', user);
     } catch (error) {
       console.log('An error occurred while fetching user data');
+    }
+  }
+
+  @Action
+  async updateUserProfile(userProfile: any) {
+    try {
+      const user: User = await updateUserProfile(userProfile);
+      this.context.commit('SET_USER', user);
+      return user;
+    } catch (error) {
+      console.log('An error occurred while updating profile')
     }
   }
 

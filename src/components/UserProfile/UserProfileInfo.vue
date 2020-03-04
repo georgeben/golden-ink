@@ -3,7 +3,7 @@
     <div class="profile-info flex flex-wrap">
       <div class="profile-photo w-1/3">
         <img
-          class="w-16 h-16 xs:w-32 xs:h-32 rounded-full mx-auto"
+          class="w-16 h-16 xs:w-32 xs:h-32 rounded-full mx-auto object-cover"
           :src="user.profilePhotoUrl"
           alt="User profile photo"
         />
@@ -20,30 +20,30 @@
     <div class="interests flex flex-wrap my-3 sm:w-2/3 ml-auto">
       <p
         class="tag text-sm mt-2 bg-blue-300 text-blue-700 px-3 rounded-full mr-3"
-        v-for="topic in topics"
+        v-for="topic in user.topics"
         :key="topic.slug"
       >
         #{{ topic.name }}
       </p>
     </div>
-    <button
-      class="mt-4 text-sm border-2 border-gray-500 py-1 px-3 rounded-sm block sm:ml-1/3"
-    >
-      Edit profile
-    </button>
+    <router-link to="/profile/edit">
+      <button
+        class="mt-4 text-sm border-2 border-gray-500 py-1 px-3 rounded-sm block sm:ml-1/3"
+      >
+        Edit profile
+      </button>
+    </router-link>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { user, topics } from '../../mock-data';
 import { User } from '../../types';
+import { namespace } from 'vuex-class';
+const userNamespace = namespace('user');
 @Component
 export default class UserProfileInfo extends Vue {
-  // TODO Probably access the user profile form the state or something
-  user: User = user;
-
-  topics = topics;
+  @userNamespace.State('currentUser') user!: User;
 }
 </script>
 

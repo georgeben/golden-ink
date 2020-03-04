@@ -15,3 +15,8 @@ export async function fetchCurrentUserData(): Promise<User> {
   const apiResponse: AxiosResponse = await httpClient.get(endpoint);
   return apiResponse.data.data;
 }
+
+export async function updateUserProfile(userProfile: any): Promise<User> {
+  const apiResponse: AxiosResponse = await httpClient.put(`${endpoint}/profile`, userProfile);
+  return apiResponse.data.data;
+}
