@@ -70,3 +70,12 @@ export interface Comment {
   parentCommentId?: Comment;
   subComments?: Comment[];
 }
+
+export interface NewStory{
+  title: string;
+  content: string;
+  topicSlug: string;
+  imageUrl?: string;
+  draft?: boolean;
+  private?: boolean;
+}

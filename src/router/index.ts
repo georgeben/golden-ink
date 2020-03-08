@@ -7,11 +7,11 @@ import UpdateProfile from '@/components/UserProfile/UpdateProfile.vue';
 import FollowTopics from '@/components/Topic/FollowTopics.vue';
 import Feed from '../views/Feed.vue';
 import UserProfile from '../views/UserProfile.vue';
-import NewStory from '../views/NewStory.vue';
 import Notifications from '../views/Notifications.vue';
 import Saved from '../views/Saved.vue';
 import Settings from '../views/Settings.vue';
 import ViewStory from '../views/ViewStory.vue';
+import Editor from '@/components/Story/Editor.vue'
 import store from '../store';
 import userModule from '../store/modules/user';
 import { getModule } from 'vuex-module-decorators';
@@ -97,7 +97,7 @@ const routes = [
   {
     path: '/new-story',
     name: 'new-story',
-    component: NewStory,
+    component: Editor,
     meta: {
       requiresAuth: true,
     },
