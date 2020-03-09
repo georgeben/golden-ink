@@ -1,6 +1,6 @@
 import { httpClient } from '../utils/httpClient';
 import { AxiosResponse } from 'axios';
-import { User, Topic } from '../types';
+import { User, Topic, Story } from '../types';
 
 const endpoint = '/users';
 
@@ -28,5 +28,15 @@ export async function followTopic(topicSlug: string): Promise<Topic[]> {
 
 export async function unfollowTopic(topicSlug: string): Promise<Topic[]> {
   const apiResponse: AxiosResponse = await httpClient.delete(`${endpoint}/topics/${topicSlug}`);
+  return apiResponse.data.data;
+}
+
+export async function likeStory(storySlug: string) {
+  const apiResponse: AxiosResponse = await httpClient.put(`${endpoint}/likes/${storySlug}`);
+  return apiResponse.data.data;
+}
+
+export async function unlikeStory(storySlug: string): Promise<Story[]> {
+  const apiResponse: AxiosResponse = await httpClient.delete(`${endpoint}/likes/${storySlug}`);
   return apiResponse.data.data;
 }

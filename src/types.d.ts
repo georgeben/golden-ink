@@ -21,6 +21,7 @@ export interface User {
   bio?: string;
   profilePhotoUrl: string;
   topics?: Topic[];
+  likes?: Story[];
   emailNotificationSettings?: EmailNotification;
   createdAt: number;
   updatedAt: number;
@@ -47,7 +48,7 @@ export interface Story {
   title: string;
   createdAt: number;
   updatedAt: number;
-  likedBy?: User[] | [];
+  likedBy?: User[];
   comments?: Comment[] | [];
 }
 

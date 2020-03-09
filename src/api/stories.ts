@@ -8,7 +8,7 @@ export async function getStories(): Promise<Story[]> {
   return apiResponse.data.data;
 }
 
-export async function getSingleStory(slug: string): Promise<Story> {
+export async function getSingleStory(slug: string): Promise<Story| undefined> {
   const apiResponse: AxiosResponse = await httpClient.get(`${endpoint}/${slug}`);
   return apiResponse.data.data;
 }

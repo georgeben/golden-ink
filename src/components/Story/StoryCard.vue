@@ -5,7 +5,7 @@
     </div>
     <div class="story-details my-1">
       <p class="tag text-sm mt-2 bg-blue-300 text-blue-700 px-3 rounded-full inline-block">#{{story.topic.name}}</p>
-      <router-link to="/view-story"><h1 class="text-xl font-bold">{{story.title}}</h1></router-link>
+      <router-link :to="`/view/${story.slug}`"><h1 class="text-xl font-bold">{{story.title}}</h1></router-link>
       <p class=" text-gray-600">{{story.content.slice(0, 50)}}..</p>
 
       <div class="author-info flex items-center">

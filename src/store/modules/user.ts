@@ -5,7 +5,9 @@ import {
   fetchCurrentUserData,
   updateUserProfile,
   followTopic,
-  unfollowTopic
+  unfollowTopic,
+  likeStory,
+  unlikeStory
 } from '../../api/user-api-service';
 import storage from '@/utils/storage';
 import { TOKEN } from '@/constants';
@@ -15,7 +17,6 @@ import { setAuthHeader, removeAuthHeader } from '@/utils/httpClient';
 class UserStore extends VuexModule {
   currentUser: User | null = null;
   isLoggedIn = false;
-  name = 'Hello baby';
 
   @Mutation
   public SET_USER(user: User): void {
@@ -95,6 +96,30 @@ class UserStore extends VuexModule {
       this.context.commit('SET_USER_TOPICS', updatedTopics);
     } catch (error) {
       console.log('An error occured while unfollowing a topic', error)
+    }
+  }
+
+  @Action
+  async likeStory(storySlug: string) {
+    try {
+      const userLikes = await likeStory(storySlug);
+      if (this.currentUser) {
+        this.currentUser.likes = userLikes;
+      }
+    } catch (error) {
+      console.log('An error occurred while liking story', error);
+    }
+  }
+
+  @Action
+  async unlikeStory(storySlug: string) {
+    try {
+      const userLikes = await unlikeStory(storySlug);
+      if (this.currentUser) {
+        this.currentUser.likes = userLikes;
+      }
+    } catch (error) {
+      console.log('An error occurred while liking story', error);
     }
   }
 
