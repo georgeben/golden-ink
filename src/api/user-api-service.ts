@@ -45,3 +45,8 @@ export async function getUserFeed(): Promise<Story[]>{
   const apiResponse: AxiosResponse = await httpClient.get(`${endpoint}/feed`);
   return apiResponse.data.data;
 }
+
+export async function getUserStories(): Promise<Story[]> {
+  const apiResponse: AxiosResponse = await httpClient.get(`${endpoint}/stories`);
+  return apiResponse.data.data;
+}

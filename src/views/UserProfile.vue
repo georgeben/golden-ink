@@ -20,6 +20,12 @@ import UserProfileInfo from '@/components/UserProfile/UserProfileInfo.vue';
 import FeedItem from '@/components/Feed/FeedItem.vue';
 import { feed } from '../mock-data';
 import { Story } from '../types';
+import { namespace } from 'vuex-class';
+import { getModule } from 'vuex-module-decorators';
+import storiesModule from '@/store/modules/stories';
+
+const storiesNamespace = namespace('stories');
+
 @Component({
   components: {
     UserProfileInfo,
@@ -27,7 +33,16 @@ import { Story } from '../types';
   },
 })
 export default class UserProfile extends Vue {
-  userStories: Story[] = feed;
+  storiesStore = getModule(storiesModule, this.$store);
+  @storiesNamespace.Getter('userPublishedStories') userStories!: Story[];
+
+  async created() {
+    if(this.userStories.length > 0){
+      this.storiesStore.getUserStories();
+    } else {
+      await this.storiesStore.getUserStories();
+    }
+  }
 }
 </script>
 

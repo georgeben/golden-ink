@@ -9,8 +9,8 @@
     </div>
     <div class="feed-details px-3 w-3/4 flex flex-col justify-between">
       <div class="story-details">
-         <p class="tag text-sm mt-2 bg-blue-300 text-blue-700 px-3 rounded-full inline-block">#{{story.topic.name}}</p>
-        <h1 class="text-xl font-bold">{{ story.title }}</h1>
+        <p class="tag text-sm mt-2 bg-blue-300 text-blue-700 px-3 rounded-full inline-block">#{{story.topic.name}}</p>
+        <router-link :to="`/view/${story.slug}`"><h1 class="text-xl font-bold">{{ story.title }}</h1></router-link>
         <p class="text-gray-600">{{ story.content.slice(0, 300) }}</p>
       </div>
       <div class="flex justify-between flex-wrap">
