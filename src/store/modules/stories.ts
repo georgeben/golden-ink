@@ -38,6 +38,10 @@ class StoryStore extends VuexModule{
   get userPublishedStories(): Story[]{
     return this.userStories.filter(story => story.draft === false)
   }
+
+  get userDrafts(): Story[]{
+    return this.userStories.filter(story => story.draft === true)
+  }
 }
 
 export default StoryStore;

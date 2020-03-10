@@ -28,7 +28,11 @@ import { Component, Vue} from 'vue-property-decorator';
 import Tabs from '@/components/Tabs.vue';
 import Tab from '@/components/Tab.vue';
 import { feed } from '../mock-data';
+import { Story } from '@/types';
 import FeedItem from '@/components/Feed/FeedItem.vue';
+import { namespace } from 'vuex-class';
+
+const storiesNamespace = namespace('stories');
 @Component({
   components: {
     Tabs,
@@ -37,9 +41,9 @@ import FeedItem from '@/components/Feed/FeedItem.vue';
   }
 })
 export default class Saved extends Vue { 
-  drafts = feed;
   bookmarks = [];
   favourites = [];
+  @storiesNamespace.Getter('userDrafts') drafts!: Story[];
  }
 </script>
  
