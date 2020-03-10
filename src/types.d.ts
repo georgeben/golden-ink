@@ -45,6 +45,7 @@ export interface Story {
   private: boolean;
   slug: string;
   content: string;
+  formattedContent: string;
   title: string;
   createdAt: number;
   updatedAt: number;
@@ -75,6 +76,7 @@ export interface Comment {
 export interface NewStory{
   title: string;
   content: string;
+  formattedContent: string;
   topicSlug: string;
   imageUrl?: string;
   draft?: boolean;

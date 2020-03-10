@@ -40,3 +40,8 @@ export async function unlikeStory(storySlug: string): Promise<Story[]> {
   const apiResponse: AxiosResponse = await httpClient.delete(`${endpoint}/likes/${storySlug}`);
   return apiResponse.data.data;
 }
+
+export async function getUserFeed(): Promise<Story[]>{
+  const apiResponse: AxiosResponse = await httpClient.get(`${endpoint}/feed`);
+  return apiResponse.data.data;
+}

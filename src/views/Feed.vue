@@ -19,6 +19,11 @@ import FeedItem from '@/components/Feed/FeedItem.vue';
 import TopicList from '@/components/Topic/TopicList.vue';
 import StoryCard from '@/components/Story/StoryCard.vue';
 import { feed } from '../mock-data';
+import { namespace } from 'vuex-class';
+import { getModule } from 'vuex-module-decorators';
+import userModule from '@/store/modules/user';
+
+const userNamespace = namespace('user');
 @Component({
   components: {
     FeedItem,
@@ -27,7 +32,17 @@ import { feed } from '../mock-data';
   }
 })
 export default class Feed extends Vue { 
-  feed: Story[] = feed;
+  userStore = getModule(userModule, this.$store);
+  // feed: Story[] = feed;
+  @userNamespace.State('userFeed') feed!: Story[];
+
+  async created() {
+    if(this.feed.length > 0){
+      this.userStore.getUserFeed();
+    } else {
+      await this.userStore.getUserFeed();
+    }
+  }
  }
 </script>
 

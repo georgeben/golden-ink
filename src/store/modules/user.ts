@@ -1,5 +1,5 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators';
-import { User, Topic } from '../../types';
+import { User, Topic, Story } from '../../types';
 import {
   googleSignIn,
   fetchCurrentUserData,
@@ -7,7 +7,8 @@ import {
   followTopic,
   unfollowTopic,
   likeStory,
-  unlikeStory
+  unlikeStory,
+  getUserFeed
 } from '../../api/user-api-service';
 import storage from '@/utils/storage';
 import { TOKEN } from '@/constants';
@@ -17,6 +18,7 @@ import { setAuthHeader, removeAuthHeader } from '@/utils/httpClient';
 class UserStore extends VuexModule {
   currentUser: User | null = null;
   isLoggedIn = false;
+  userFeed: Story[] = [];
 
   @Mutation
   public SET_USER(user: User): void {
@@ -38,6 +40,11 @@ class UserStore extends VuexModule {
   RESET_STATE(): void {
     this.currentUser = null;
     this.isLoggedIn = false;
+  }
+
+  @Mutation
+  SET_USER_FEED(feed: Story[]): void {
+    this.userFeed = feed;
   }
 
   @Action
@@ -120,6 +127,16 @@ class UserStore extends VuexModule {
       }
     } catch (error) {
       console.log('An error occurred while liking story', error);
+    }
+  }
+
+  @Action
+  async getUserFeed() {
+    try {
+      const userFeed = await getUserFeed();
+      this.context.commit('SET_USER_FEED', userFeed);
+    } catch (error) {
+      console.log('Failed to fetch feed', error);
     }
   }
 

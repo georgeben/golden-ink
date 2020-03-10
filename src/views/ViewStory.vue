@@ -25,7 +25,7 @@
         />
       </div>
       <vue-editor
-        v-model="story.content"
+        v-model="story.formattedContent"
         :disabled="true"
         :editorOptions="editorOptions"
         class=""

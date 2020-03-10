@@ -34,8 +34,9 @@
         />
         <vue-editor
           class="h-screen"
-          v-model="content"
+          v-model="formattedContent"
           placeholder="Write your story"
+          ref="vEditor"
         ></vue-editor>
       </div>
       <div class="mt-4 xs:hidden">
@@ -80,7 +81,7 @@ import storiesModule from '@/store/modules/stories';
 export default class Editor extends Vue {
   storiesStore = getModule(storiesModule, this.$store);
   title = '';
-  content = '';
+  formattedContent = '';
   selectedFile = {
     imageName: '',
     imageUrl: '',
@@ -90,9 +91,11 @@ export default class Editor extends Vue {
   errorMessage = '';
 
   async createStory(storyType = 'private') {
+    const content = this.$refs.vEditor.quill.getText();
     const newStory: NewStory = {
       title: this.title,
-      content: this.title,
+      content: content,
+      formattedContent: this.formattedContent,
       topicSlug: this.topic,
     };
     if (storyType === 'private') {
@@ -115,6 +118,7 @@ export default class Editor extends Vue {
 
       const story = await this.storiesStore.createStory(newStory);
       console.log('Yaay new story created', story);
+      this.$router.push('/feed');
     } catch (error) {
       if (error.name === 'ValidationError') {
         this.errorMessage = error.message;
