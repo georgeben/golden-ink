@@ -17,3 +17,8 @@ export async function createStory(newStory: NewStory): Promise<Story> {
   const apiResponse: AxiosResponse = await httpClient.post(`${endpoint}`, newStory);
   return apiResponse.data.data;
 }
+
+export async function updateStory( story: NewStory, slug: string): Promise<Story> {
+  const apiResponse: AxiosResponse = await httpClient.put(`users/stories/${slug}`, story);
+  return apiResponse.data.data;
+}

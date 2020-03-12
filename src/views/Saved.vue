@@ -8,6 +8,7 @@
             :key="draft.id"
             :story="draft"
             :actions="false"
+            :draft="true"
           />
         </div>
         <h1 class="text-center mt-8 font-medium" v-else>You have no drafts currently</h1>

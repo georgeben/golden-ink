@@ -79,6 +79,11 @@ const routes = [
     component: ViewStory,
   },
   {
+    path: '/draft/:story',
+    name: 'draft',
+    component: ViewStory,
+  },
+  {
     path: '/settings',
     name: 'settings',
     component: Settings,
@@ -95,8 +100,8 @@ const routes = [
     }
   },
   {
-    path: '/new-story',
-    name: 'new-story',
+    path: '/write',
+    name: 'write-story',
     component: Editor,
     meta: {
       requiresAuth: true,

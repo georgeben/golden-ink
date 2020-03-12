@@ -34,6 +34,10 @@ const storiesNamespace = namespace('stories');
 export default class UserProfile extends Vue {
   storiesStore = getModule(storiesModule, this.$store);
   @storiesNamespace.Getter('userPublishedStories') userStories!: Story[];
+
+  async created() {
+    this.storiesStore.getUserStories();
+  }
 }
 </script>
 

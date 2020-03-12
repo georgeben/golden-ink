@@ -73,7 +73,7 @@
             </button>
           </router-link>
 
-          <router-link to="/new-story" v-if="currentUser">
+          <router-link to="/write" v-if="currentUser">
             <div class="flex items-center">
               <img class="w-8 mr-3" src="../../assets/images/plus.png" alt="" />
               <span> New story</span>

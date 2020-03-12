@@ -68,10 +68,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { VueEditor } from 'vue2-editor';
-import { NewStory } from '@/types';
+import { NewStory, Story } from '@/types';
 import newStorySchema from '@/schemas/newStorySchema';
 import { getModule } from 'vuex-module-decorators';
 import storiesModule from '@/store/modules/stories';
+import { getUserStory } from '@/api/user-api-service';
 
 @Component({
   components: {
@@ -80,6 +81,7 @@ import storiesModule from '@/store/modules/stories';
 })
 export default class Editor extends Vue {
   storiesStore = getModule(storiesModule, this.$store);
+  draft: Story | null = null;
   title = '';
   formattedContent = '';
   selectedFile = {
@@ -90,35 +92,63 @@ export default class Editor extends Vue {
   topic = 'tech';
   errorMessage = '';
 
+  async created() {
+    const draft = this.$route.query.draft as string;
+    if (draft) {
+      try {
+        const story = await getUserStory(draft);
+        if (story) {
+          this.draft = story;
+          this.title = story.title;
+          this.formattedContent = story.formattedContent;
+          if (story.imageUrl) {
+            this.selectedFile.imageUrl = story.imageUrl;
+          }
+          this.topic = story.topic.slug;
+        } else {
+          // TODO Route to 404 page
+        }
+      } catch (error) {
+        console.log('An error occured while fetching draft');
+      }
+    }
+  }
+
   async createStory(storyType = 'private') {
     const content = this.$refs.vEditor.quill.getText();
-    const newStory: NewStory = {
+    const story: NewStory = {
       title: this.title,
       content: content,
       formattedContent: this.formattedContent,
       topicSlug: this.topic,
     };
     if (storyType === 'private') {
-      newStory.private = true;
+      story.private = true;
+      story.draft = false;
     } else if (storyType === 'draft') {
-      newStory.draft = true;
+      story.draft = true;
     } else if (storyType === 'publish') {
-      newStory.private = false;
-      newStory.draft = false;
+      story.private = false;
+      story.draft = false;
     }
     // TODO Implement image selection
     if (this.selectedFile.imageUrl) {
-      newStory.imageUrl = this.selectedFile.imageUrl;
+      story.imageUrl = this.selectedFile.imageUrl;
     }
 
     // Validate the schema
     try {
-      await newStorySchema.validate(newStory, { abortEarly: true });
-      console.log('About to create a effin story');
+      await newStorySchema.validate(story, { abortEarly: true });
+      if (this.draft) {
+        const updatedStory = await this.storiesStore.updateStory({story, slug: this.draft.slug});
+        return this.$router.push('/feed');
+      } else {
+        console.log('About to create a effin story');
 
-      const story = await this.storiesStore.createStory(newStory);
-      console.log('Yaay new story created', story);
-      this.$router.push('/feed');
+        const createdStory = await this.storiesStore.createStory(story);
+        console.log('Yaay new story created', createdStory);
+        this.$router.push('/feed');
+      }
     } catch (error) {
       if (error.name === 'ValidationError') {
         this.errorMessage = error.message;

@@ -22,7 +22,7 @@
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi
             eligendi teri duant.
           </p>
-          <router-link to="/new-story">
+          <router-link to="/write">
             <button
               class="cta bg-accent hover:bg-blue-600 w-40 text-white p-3 shadow-xl rounded-md"
             >

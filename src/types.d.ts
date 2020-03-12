@@ -45,6 +45,7 @@ export interface Story {
   draft: boolean;
   private: boolean;
   slug: string;
+  imageUrl?: string;
   content: string;
   formattedContent: string;
   title: string;
