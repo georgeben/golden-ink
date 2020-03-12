@@ -22,6 +22,7 @@ export interface User {
   profilePhotoUrl: string;
   topics?: Topic[];
   likes?: Story[];
+  bookmarks?: Story[];
   emailNotificationSettings?: EmailNotification;
   createdAt: number;
   updatedAt: number;

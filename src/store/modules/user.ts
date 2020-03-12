@@ -8,7 +8,9 @@ import {
   unfollowTopic,
   likeStory,
   unlikeStory,
-  getUserFeed
+  getUserFeed,
+  addStoryToBookMarks,
+  removeStoryFromBookMarks
 } from '../../api/user-api-service';
 import storage from '@/utils/storage';
 import { TOKEN } from '@/constants';
@@ -45,6 +47,20 @@ class UserStore extends VuexModule {
   @Mutation
   SET_USER_FEED(feed: Story[]): void {
     this.userFeed = feed;
+  }
+
+  @Mutation
+  SET_USER_BOOKMARKS(bookmarks: Story[]) {
+    if (this.currentUser) {
+      this.currentUser.bookmarks = bookmarks;
+    }
+  }
+
+  @Mutation
+  SET_USER_LIKES(likedStories: Story[]) {
+    if (this.currentUser) {
+      this.currentUser.likes = likedStories;
+    }
   }
 
   @Action
@@ -111,7 +127,7 @@ class UserStore extends VuexModule {
     try {
       const userLikes = await likeStory(storySlug);
       if (this.currentUser) {
-        this.currentUser.likes = userLikes;
+        this.context.commit('SET_USER_LIKES', userLikes);
       }
     } catch (error) {
       console.log('An error occurred while liking story', error);
@@ -123,7 +139,7 @@ class UserStore extends VuexModule {
     try {
       const userLikes = await unlikeStory(storySlug);
       if (this.currentUser) {
-        this.currentUser.likes = userLikes;
+        this.context.commit('SET_USER_LIKES', userLikes);
       }
     } catch (error) {
       console.log('An error occurred while liking story', error);
@@ -137,6 +153,26 @@ class UserStore extends VuexModule {
       this.context.commit('SET_USER_FEED', userFeed);
     } catch (error) {
       console.log('Failed to fetch feed', error);
+    }
+  }
+
+  @Action
+  async addStoryToBookmarks(storySlug: string) {
+    try {
+      const userBookmarks = await addStoryToBookMarks(storySlug);
+      this.context.commit('SET_USER_BOOKMARKS', userBookmarks)
+    } catch (error) {
+      console.log('An error occurred while adding story to bookmarks', error);
+    }
+  }
+
+  @Action
+  async removeStoryFromBookmarks(storySlug: string) {
+    try {
+      const userBookmarks = await removeStoryFromBookMarks(storySlug);
+      this.context.commit('SET_USER_BOOKMARKS', userBookmarks)
+    } catch (error) {
+      console.log('An error occurred while removing story from bookmarks', error);
     }
   }
 
@@ -158,6 +194,14 @@ class UserStore extends VuexModule {
         : false;
     }
     return false;
+  }
+
+  get userBookmarks(): Story[]{
+    return this.currentUser?.bookmarks || [];
+  }
+
+  get userFavourites(): Story[]{
+    return this.currentUser?.likes || [];
   }
 }
 

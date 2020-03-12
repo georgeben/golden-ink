@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="app antialiased text-gray-800">
     <Navbar />
-    <router-view/>
+    <router-view :key="$route.fullPath"/>
   </div>
 </template>
 

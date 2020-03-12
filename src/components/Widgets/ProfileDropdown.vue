@@ -54,15 +54,15 @@ export default class DropDown extends Vue {
     },
     {
       title: 'Drafts',
-      href: '/saved',
+      href: '/saved?tab=drafts',
     },
     {
       title: 'Bookmarks',
-      href: '/saved',
+      href: '/saved?tab=bookmarks',
     },
     {
       title: 'Favourites',
-      href: '/saved',
+      href: '/saved?tab=favourites',
     },
     {
       title: 'Settings',

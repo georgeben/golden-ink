@@ -50,3 +50,13 @@ export async function getUserStories(): Promise<Story[]> {
   const apiResponse: AxiosResponse = await httpClient.get(`${endpoint}/stories`);
   return apiResponse.data.data;
 }
+
+export async function addStoryToBookMarks(storySlug: string): Promise<Story[]> {
+  const apiResponse: AxiosResponse = await httpClient.put(`${endpoint}/bookmarks/${storySlug}`);
+  return apiResponse.data.data;
+}
+
+export async function removeStoryFromBookMarks(storySlug: string): Promise<Story[]> {
+  const apiResponse: AxiosResponse = await httpClient.delete(`${endpoint}/bookmarks/${storySlug}`);
+  return apiResponse.data.data;
+}
