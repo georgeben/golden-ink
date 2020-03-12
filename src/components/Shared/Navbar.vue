@@ -1,7 +1,7 @@
 <template>
   <header>
     <nav
-      class="navbar fixed top-0 left-0 right-0 w-full z-10 lg:mx-4"
+      class="navbar fixed  top-0 left-0 right-0 w-full z-10 lg:mx-4"
       :class="[
         showNavbar ? '' : 'navbar-hidden',
         lastScrollPosition > navbarHeight ? 'nav-solid' : '',

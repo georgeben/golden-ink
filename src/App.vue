@@ -1,6 +1,8 @@
 <template>
-  <div id="app" class="app antialiased text-gray-800">
-    <Navbar />
+  <div id="app" class="app antialiased text-gray-800 ">
+    <div class=" <Navbar  /> ">
+       <Navbar/>
+    </div>
     <router-view/>
   </div>
 </template>

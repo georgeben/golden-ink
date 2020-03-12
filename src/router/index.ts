@@ -15,6 +15,7 @@ import Editor from '@/components/Story/Editor.vue'
 import store from '../store';
 import userModule from '../store/modules/user';
 import { getModule } from 'vuex-module-decorators';
+import NotFound from '../components/404/404.vue'
 
 const userStore = getModule(userModule, store);
 
@@ -101,6 +102,11 @@ const routes = [
     meta: {
       requiresAuth: true,
     },
+  },
+  {
+    path: '*',
+    name: 'ma-fo',
+    component: NotFound,
   },
   {
     path: '/about',
