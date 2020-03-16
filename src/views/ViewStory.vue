@@ -143,6 +143,7 @@ import { namespace } from 'vuex-class';
 import { getModule } from 'vuex-module-decorators';
 import userModule from '@/store/modules/user';
 import { getSingleStory } from '../api/stories';
+import { getUserStory } from '@/api/user-api-service';
 import { Story, User } from '@/types';
 
 const userNamespace = namespace('user');
@@ -156,6 +157,7 @@ const userNamespace = namespace('user');
 })
 export default class ViewStory extends Vue {
   @userNamespace.State('currentUser') user!: User;
+  @userNamespace.State('isLoggedIn') isLoggedIn!: boolean;
   userStore = getModule(userModule, this.$store);
   story: Story | null = null;
   editorOptions = {
@@ -166,11 +168,24 @@ export default class ViewStory extends Vue {
 
   async created(): Promise<void> {
     const storySlug: string = this.$route.params.story;
+    const storyType = this.$route.query.t;
     // Get the story
     try {
-      const story = await getSingleStory(storySlug);
-      if (story) {
-        this.story = story;
+      if (storyType === 'private') {
+        // Ensure that the person is logged in
+        if(!this.isLoggedIn){
+          this.$router.replace('/signin');
+          return;
+        }
+        const story = await getUserStory(storySlug);
+        if (story) {
+          this.story = story;
+        }
+      } else {
+        const story = await getSingleStory(storySlug);
+        if (story) {
+          this.story = story;
+        }
       }
     } catch (error) {
       // TODO Handle error

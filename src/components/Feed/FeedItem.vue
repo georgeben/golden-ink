@@ -16,7 +16,13 @@
           #{{ story.topic.name }}
         </p>
         <router-link
-          :to="draft ? `/write/?story=${story.slug}` : `/view/${story.slug}`"
+          :to="
+            draft
+              ? `/write/?story=${story.slug}`
+              : story.private
+              ? `/view/${story.slug}?t=private`
+              : `/view/${story.slug}`
+          "
         >
           <div class="flex items-center mt-2">
             <svg
