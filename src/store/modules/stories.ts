@@ -1,7 +1,7 @@
 import { VuexModule, Module, Action, Mutation } from 'vuex-module-decorators';
 import { NewStory, Story } from '@/types';
 import { createStory, updateStory } from '@/api/stories';
-import { getUserStories } from '@/api/user-api-service';
+import { getUserStories, deleteStory } from '@/api/user-api-service';
 
 @Module({ namespaced: true, name: 'stories' })
 class StoryStore extends VuexModule {
@@ -10,6 +10,15 @@ class StoryStore extends VuexModule {
   @Mutation
   SET_USER_STORIES(stories: Story[]) {
     this.userStories = stories;
+  }
+
+  @Mutation
+  DELETE_STORY(story: Story) {
+    this.userStories.forEach((item, i) => {
+      if (item.id === story.id) {
+        this.userStories.splice(i, 1);
+      }
+    })
   }
 
   @Action
@@ -35,6 +44,16 @@ class StoryStore extends VuexModule {
     } catch (error) {
       console.log('An error occurred while creating a story', error);
       console.log(error.response.data);
+    }
+  }
+
+  @Action
+  async deleteStory(storySlug: string) {
+    try {
+      const deletedStory = await deleteStory(storySlug);
+      this.context.commit('DELETE_STORY', deletedStory);
+    } catch (error) {
+      console.log('Error while deleting story', error);
     }
   }
 

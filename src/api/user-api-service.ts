@@ -65,3 +65,8 @@ export async function getUserStory(storySlug: string): Promise<Story> {
   const apiResponse: AxiosResponse = await httpClient.get(`${endpoint}/stories/${storySlug}`);
   return apiResponse.data.data;
 }
+
+export async function deleteStory(storySlug: string) {
+  const apiResponse: AxiosResponse = await httpClient.delete(`${endpoint}/stories/${storySlug}`);
+  return apiResponse.data.data;
+}

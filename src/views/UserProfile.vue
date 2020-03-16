@@ -9,6 +9,7 @@
         :key="story.slug"
         :story="story"
         :actions="false"
+        :modify="true"
       />
     </div>
   </div>

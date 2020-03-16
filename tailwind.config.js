@@ -20,6 +20,7 @@ module.exports = {
         accent: '#1578D5',
         primary: '#F9BC2F',
         primaryDark: '#FAA82F',
+        'dark-transparent': 'rgba(0,0,0, 0.75)',
       },
       borderRadius: {
         story: '0.8rem'
