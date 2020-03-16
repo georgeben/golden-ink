@@ -13,6 +13,15 @@ class StoryStore extends VuexModule {
   }
 
   @Mutation
+  UPDATE_STORY(story: Story) {
+    this.userStories.forEach((item, i) => {
+      if (item.id === story.id) {
+        this.userStories[i] = story;
+      }
+    })
+  }
+
+  @Mutation
   DELETE_STORY(story: Story) {
     this.userStories.forEach((item, i) => {
       if (item.id === story.id) {
@@ -40,6 +49,7 @@ class StoryStore extends VuexModule {
         payload.story,
         payload.slug,
       );
+      this.context.commit('UPDATE_STORY', updatedStory);
       return updatedStory;
     } catch (error) {
       console.log('An error occurred while creating a story', error);

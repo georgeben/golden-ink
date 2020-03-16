@@ -81,7 +81,7 @@ import { getUserStory } from '@/api/user-api-service';
 })
 export default class Editor extends Vue {
   storiesStore = getModule(storiesModule, this.$store);
-  draft: Story | null = null;
+  existingStory: Story | null = null;
   title = '';
   formattedContent = '';
   selectedFile = {
@@ -93,12 +93,12 @@ export default class Editor extends Vue {
   errorMessage = '';
 
   async created() {
-    const draft = this.$route.query.draft as string;
-    if (draft) {
+    const storySlug = this.$route.query.story as string;
+    if (storySlug) {
       try {
-        const story = await getUserStory(draft);
+        const story = await getUserStory(storySlug);
         if (story) {
-          this.draft = story;
+          this.existingStory = story;
           this.title = story.title;
           this.formattedContent = story.formattedContent;
           if (story.imageUrl) {
@@ -139,8 +139,8 @@ export default class Editor extends Vue {
     // Validate the schema
     try {
       await newStorySchema.validate(story, { abortEarly: true });
-      if (this.draft) {
-        const updatedStory = await this.storiesStore.updateStory({story, slug: this.draft.slug});
+      if (this.existingStory) {
+        const updatedStory = await this.storiesStore.updateStory({story, slug: this.existingStory.slug});
         return this.$router.push('/feed');
       } else {
         console.log('About to create a effin story');
