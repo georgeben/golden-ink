@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import SignIn from '../views/SignIn.vue';
-import Onboarding from '../views/Onboarding.vue';
+import ViewProfile from '../views/ViewProfile.vue';
 import UpdateProfile from '@/components/UserProfile/UpdateProfile.vue';
 import FollowTopics from '@/components/Topic/FollowTopics.vue';
 import Feed from '../views/Feed.vue';
@@ -54,6 +54,11 @@ const routes = [
     meta: {
       requiresAuth: true,
     }
+  },
+  {
+    path: '/writers/:username',
+    name: 'view-profile',
+    component: ViewProfile,
   },
   {
     path: '/profile',

@@ -70,3 +70,13 @@ export async function deleteStory(storySlug: string) {
   const apiResponse: AxiosResponse = await httpClient.delete(`${endpoint}/stories/${storySlug}`);
   return apiResponse.data.data;
 }
+
+export async function getUserProfile(username: string) {
+  const apiResponse: AxiosResponse = await httpClient.get(`${endpoint}/profile/${username}`);
+  return apiResponse.data.data;
+}
+
+export async function getStoriesByUser(username: string): Promise<Story[]> {
+  const apiResponse: AxiosResponse = await httpClient.get(`${endpoint}/${username}/stories`);
+  return apiResponse.data.data;
+}

@@ -10,7 +10,9 @@
       />
     </div>
     <div class="topic-detail p-4 flex justify-between items-center">
-      <h1 class=" text-xl font-bold">{{ topic.name }}</h1>
+      <router-link :to="`/topics/${topic.slug}`">
+        <h1 class=" text-xl font-bold">{{ topic.name }}</h1>
+      </router-link>
       <button
         class=" border-2 border-accent px-4 py-1 rounded-full focus:outline-none focus:shadow-outline"
         :class="
