@@ -12,6 +12,7 @@ import Saved from '../views/Saved.vue';
 import Settings from '../views/Settings.vue';
 import ViewStory from '../views/ViewStory.vue';
 import Editor from '@/components/Story/Editor.vue'
+import TopicPage from '@/views/TopicPage.vue';
 import store from '../store';
 import userModule from '../store/modules/user';
 import { getModule } from 'vuex-module-decorators';
@@ -40,6 +41,11 @@ const routes = [
     meta: {
       requiresAuth: true,
     }
+  },
+  {
+    path: '/topics/:topic',
+    name: 'topic-page',
+    component: TopicPage,
   },
   {
     path: '/feed',

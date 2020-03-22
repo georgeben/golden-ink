@@ -12,7 +12,7 @@
     <div class="topic-detail p-4 flex justify-between items-center">
       <h1 class=" text-xl font-bold">{{ topic.name }}</h1>
       <button
-        class=" border-2 border-accent px-5 py-1 rounded-full focus:outline-none focus:shadow-outline"
+        class=" border-2 border-accent px-4 py-1 rounded-full focus:outline-none focus:shadow-outline"
         :class="
           isFollowing ? 'bg-accent border-accent text-white' : 'text-accent'
         "
