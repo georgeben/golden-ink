@@ -25,7 +25,7 @@ export default class Tabs extends Vue {
     }
 
     selectTab(selectedTab: any){
-      this.$router.push({ path: 'saved', query: { tab: `${selectedTab.name.toLowerCase()}` }})
+      this.$router.push({ path: `${this.$route.name}`, query: { tab: `${selectedTab.name.toLowerCase()}` }})
       this.tabs.forEach(tab => {
         tab.isActive = (tab.name == selectedTab.name);
       });

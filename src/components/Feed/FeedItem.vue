@@ -107,7 +107,7 @@
         >
           <div class="mr-4" @click="displayModal = !displayModal">
             <svg
-              class="text-gray-500 hover:text-red-600 fill-current w-6 h-6 cursor-pointer"
+              class="text-gray-500 hover:text-red-600 fill-current w-5 h-5 cursor-pointer"
               height="427pt"
               viewBox="-40 0 427 427.00131"
               width="427pt"
@@ -131,7 +131,7 @@
             <router-link :to="`/write/?story=${story.slug}`">
               <svg
                 id="Capa_1"
-                class="text-gray-500 fill-current w-6 h-6 cursor-pointer"
+                class="text-gray-500 hover:text-accent fill-current w-5 h-5 cursor-pointer"
                 enable-background="new 0 0 488.471 488.471"
                 height="512"
                 viewBox="0 0 488.471 488.471"

@@ -84,3 +84,9 @@ export interface NewStory{
   draft?: boolean;
   private?: boolean;
 }
+
+export interface SearchResults {
+  users: User[];
+  topics: Topic[];
+  stories: Story[];
+}

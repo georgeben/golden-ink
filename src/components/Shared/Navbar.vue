@@ -23,6 +23,8 @@
               type="search"
               placeholder="Search"
               class=" shadow-lg w-10/12 ml-3 py-1 px-4  rounded-full focus:outline-none focus:shadow-outline bg-white"
+              v-model="searchQuery"
+              @keyup.enter="search"
             />
           </div>
 
@@ -114,6 +116,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { getModule } from 'vuex-module-decorators';
 import userModule from '@/store/modules/user';
+import searchModule from '@/store/modules/search';
 import ProfileDropdown from '../Widgets/ProfileDropdown.vue';
 import { namespace } from 'vuex-class';
 import { User } from '../../types';
@@ -127,11 +130,13 @@ const userNamespace = namespace('user');
 })
 export default class Navbar extends Vue {
   userStore = getModule(userModule, this.$store);
+  searchStore = getModule(searchModule, this.$store);
 
   isMobileNavOpen = false;
   showNavbar = true;
   lastScrollPosition = 0;
   navbarHeight = 61;
+  searchQuery = '';
 
   @userNamespace.State('currentUser') currentUser!: User;
   @userNamespace.State('isLoggedIn') isLoggedIn!: boolean;
@@ -163,6 +168,13 @@ export default class Navbar extends Vue {
     setTimeout(() => {
       this.isMobileNavOpen = false;
     }, 200);
+  }
+
+  search(){
+    this.searchStore.search(this.searchQuery);
+    if(this.$route.name !== 'search'){
+      this.$router.push('/search');
+    }
   }
 }
 </script>
