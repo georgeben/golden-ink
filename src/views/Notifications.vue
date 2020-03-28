@@ -14,14 +14,9 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import NotificationCard from '@/components/Notifications/NotificationCard.vue';
-import storage from '@/utils/storage';
-import socketIOClient from 'socket.io-client';
-import sailsIOClient from 'sails.io.js';
-const io = sailsIOClient(socketIOClient);
-io.sails.url = 'http://localhost:1337';
-io.sails.headers = {
-  authorization: storage.loadState('TOKEN'),
-};
+import { Notification } from '@/types';
+import { namespace } from 'vuex-class';
+const notificationsNamespace = namespace('notifications');
 
 @Component({
   components: {
@@ -29,35 +24,8 @@ io.sails.headers = {
   },
 })
 export default class Notifications extends Vue {
-  data() {
-    return {
-      notifications: '',
-    };
-  }
+  @notificationsNamespace.State('notifications') notifications !: Notification[];
 
-  created() {
-    io.socket.get('/api/v1/users/notifications', (body: any, JWR: any) => {
-      if (JWR.error) {
-        console.error(
-          'Could not subscribe to notifications: ' + JWR.error,
-        );
-        return;
-      }
-
-      console.log('Successfully subscribed.');
-      this.notifications = body.data;
-    });
-
-    io.socket.on('notifications', (msg) => {
-      console.log(`Got message`, msg);
-      this.notifications.push(msg);
-    });
-
-    io.socket.on('stories', (msg) => {
-      console.log(`Got new story notification!`, msg);
-      this.notifications.push(msg);
-    });
-  }
 }
 </script>
 

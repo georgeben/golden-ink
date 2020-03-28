@@ -22,6 +22,9 @@ module.exports = {
         primaryDark: '#FAA82F',
         'dark-transparent': 'rgba(0,0,0, 0.75)',
       },
+      fontSize: {
+        'xxs': '0.5rem'
+      },
       borderRadius: {
         story: '0.8rem'
       },

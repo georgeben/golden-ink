@@ -62,6 +62,7 @@ export interface Notification {
   topic?: Topic;
   story?: Story;
   fromUser?: User;
+  read: boolean;
   createdAt?: number;
   updatedAt?: number;
 }

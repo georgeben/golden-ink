@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import user from './modules/user';
 import stories from './modules/stories';
 import search from './modules/search';
+import notifications from './modules/notifications';
 import VuexPersist from 'vuex-persist';
 
 const vuexLocal = new VuexPersist({
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     user,
     stories,
     search,
+    notifications,
   },
   plugins: [vuexLocal.plugin],
 })
