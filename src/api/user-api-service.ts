@@ -80,3 +80,8 @@ export async function getStoriesByUser(username: string): Promise<Story[]> {
   const apiResponse: AxiosResponse = await httpClient.get(`${endpoint}/${username}/stories`);
   return apiResponse.data.data;
 }
+
+export async function updateNotificationReadStatus(id: number) {
+  const apiResponse: AxiosResponse = await httpClient.put(`${endpoint}/notifications`, { notificationId: id });
+  return apiResponse.data.data;
+}

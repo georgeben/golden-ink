@@ -146,7 +146,8 @@ export default class Navbar extends Vue {
 
   @userNamespace.State('currentUser') currentUser!: User;
   @userNamespace.State('isLoggedIn') isLoggedIn!: boolean;
-  @notificationNamespace.Getter('unreadNotificationCount') unreadNotificationCount !: number;
+  // @notificationNamespace.Getter('unreadNotificationCount') unreadNotificationCount !: number;
+  @notificationNamespace.State('unreadNotificationCount') unreadNotificationCount !: number;
 
   handleScroll() {
     const currentScrollPosition =

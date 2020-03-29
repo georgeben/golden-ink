@@ -2,7 +2,8 @@
   <router-link :to="`/view/${notification.story.slug}`">
     <div
       class="container bg-white shadow-xl rounded-lg p-3 flex items-center mb-4"
-      :class="notification.read? '': 'bg-blue-200'"
+      :class="notification.read? '': 'bg-blue-overlay'"
+      @click="updatedNotificationReadStatus"
     >
       <div class="notification-image w-1/6 sm:w-1/12 mr-4">
         <img
@@ -30,10 +31,19 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { Notification } from '../../types';
+import notificationModule from '@/store/modules/notifications';
+import { getModule } from 'vuex-module-decorators';
 @Component
 export default class NotificationCard extends Vue {
+  notificationModule = getModule(notificationModule, this.$store);
+
   @Prop({ required: true }) notification!: Notification;
+  // TODO Display correct date of notification
   notificationTime = 'Yesterday';
+
+  updatedNotificationReadStatus(){
+    this.notificationModule.updateNotificationReadStatus(this.notification.id);
+  }
 
   get notificationText() {
     let notificationText;
