@@ -14,6 +14,12 @@ io.sails.headers = {
   authorization: token
 };
 
+interface NotificationData {
+  actionType: string;
+  fromUser: number;
+  story: number;
+}
+
 @Module({ namespaced: true, name: 'notifications' })
 class NotificationStore extends VuexModule {
   notifications: Notification[] = [];
@@ -36,7 +42,11 @@ class NotificationStore extends VuexModule {
   @Mutation
   UPDATE_NOTIFICATION(notification: Notification) {
     this.notifications.forEach((item, i) => {
-      if (item.id === notification.id) {
+      if (
+        item.actionType === notification.actionType &&
+        item.fromUser.id === notification.fromUser.id,
+        item.story.id === notification.story.id
+      ) {
         this.notifications[i] = notification;
         this.unreadNotificationCount -= 1;
       }
@@ -67,8 +77,8 @@ class NotificationStore extends VuexModule {
   }
 
   @Action
-  async updateNotificationReadStatus(id: number) {
-    const updatedNotification = await updateNotificationReadStatus(id);
+  async updateNotificationReadStatus(notificationData: NotificationData) {
+    const updatedNotification = await updateNotificationReadStatus(notificationData);
     console.log({ updatedNotification });
     this.context.commit('UPDATE_NOTIFICATION', updatedNotification);
   }

@@ -42,7 +42,12 @@ export default class NotificationCard extends Vue {
   notificationTime = 'Yesterday';
 
   updatedNotificationReadStatus(){
-    this.notificationModule.updateNotificationReadStatus(this.notification.id);
+    if(this.notification.read) return;
+    this.notificationModule.updateNotificationReadStatus({
+      actionType: this.notification.actionType,
+      fromUser: this.notification.fromUser.id,
+      story: this.notification.story.id,
+    });
   }
 
   get notificationText() {
@@ -51,8 +56,7 @@ export default class NotificationCard extends Vue {
       case 'NEW_STORY':
         if (
           this.notification.fromUser &&
-          this.notification.story &&
-          this.notification.topic
+          this.notification.story
         ) {
           notificationText = `${this.notification.fromUser.name} just published a story titled ${this.notification.story.title} in ${this.notification.topic.name}`;
         }

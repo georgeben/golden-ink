@@ -60,8 +60,8 @@ export interface Notification {
   actionType: string;
   forUser: User;
   topic?: Topic;
-  story?: Story;
-  fromUser?: User;
+  story: Story;
+  fromUser: User;
   read: boolean;
   createdAt?: number;
   updatedAt?: number;

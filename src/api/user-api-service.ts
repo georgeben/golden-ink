@@ -81,7 +81,7 @@ export async function getStoriesByUser(username: string): Promise<Story[]> {
   return apiResponse.data.data;
 }
 
-export async function updateNotificationReadStatus(id: number) {
-  const apiResponse: AxiosResponse = await httpClient.put(`${endpoint}/notifications`, { notificationId: id });
+export async function updateNotificationReadStatus(data: any) {
+  const apiResponse: AxiosResponse = await httpClient.put(`${endpoint}/notifications`, data);
   return apiResponse.data.data;
 }
