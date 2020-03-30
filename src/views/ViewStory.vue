@@ -300,6 +300,7 @@ export default class ViewStory extends Vue {
     try {
       const comment = await postComment(this.comment, this.story.slug);
       this.comments.unshift(comment);
+      this.comment = ''
     } catch (error) {
       console.log('An error occurred while posting a comment', error);
     }

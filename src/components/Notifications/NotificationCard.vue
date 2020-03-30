@@ -55,8 +55,8 @@ export default class NotificationCard extends Vue {
     switch (this.notification.actionType) {
       case 'NEW_STORY':
         if (
-          this.notification.fromUser &&
-          this.notification.story
+          this.notification.story &&
+          this.notification.topic
         ) {
           notificationText = `${this.notification.fromUser.name} just published a story titled ${this.notification.story.title} in ${this.notification.topic.name}`;
         }
@@ -66,8 +66,9 @@ export default class NotificationCard extends Vue {
           notificationText = `${this.notification.fromUser.name} liked your story ${this.notification.story.title}`;
         }
         break;
-      default:
-        notificationText = "I don't know what to put here";
+      case 'COMMENT': 
+        notificationText = `${this.notification.fromUser.name} commented on your story ${this.notification.story.title}`;
+        break;
     }
 
     return notificationText;

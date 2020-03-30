@@ -4,7 +4,7 @@
       <h1 class="text-lg font-semibold mb-4">Notifications</h1>
       <NotificationCard
         v-for="notification in notifications"
-        :key="notification.id"
+        :key="notification.createdAt"
         :notification="notification"
       />
     </div>

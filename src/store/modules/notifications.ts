@@ -69,10 +69,6 @@ class NotificationStore extends VuexModule {
         this.context.commit('ADD_NOTIFICATION', msg);
       });
 
-      io.socket.on('stories', (msg) => {
-        console.log(`Got new story notification!`, msg);
-        this.context.commit('ADD_NOTIFICATION', msg);
-      });
     });
   }
 
