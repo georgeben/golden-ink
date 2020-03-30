@@ -32,7 +32,7 @@
       >
       </vue-editor>
       <p class="text-sm">Published in {{ story.topic.name }}</p>
-      <div class="actions flex items-center mt-2">
+      <div class="actions flex items-center mt-2" v-if="!story.private">
         <div class="flex items-center mr-2">
           <input
             type="checkbox"
@@ -111,6 +111,7 @@
     </div>
     <div
       class="comment-section bg-white shadow-xl rounded-lg mt-6 p-3 md:w-3/4 md:mx-auto"
+      v-if="!story.private"
     >
       <h3 class="text-lg font-semibold">Comments</h3>
       <div class="add-comment mb-4">
@@ -119,13 +120,14 @@
           cols="30"
           rows="5"
           placeholder="Add a comment"
+          v-model="comment"
         ></textarea>
         <button class="bg-accent text-white px-3 py-1" @click="postComment">Add comment</button>
       </div>
 
       <div class="comments">
         <CommentCard
-          v-for="comment in story.comments"
+          v-for="comment in comments"
           :key="comment.id"
           :comment="comment"
         />
@@ -142,9 +144,9 @@ import BookmarkButton from '@/components/Widgets/Bookmark.vue';
 import { namespace } from 'vuex-class';
 import { getModule } from 'vuex-module-decorators';
 import userModule from '@/store/modules/user';
-import { getSingleStory } from '../api/stories';
+import { getSingleStory, postComment, getComments } from '../api/stories';
 import { getUserStory } from '@/api/user-api-service';
-import { Story, User } from '@/types';
+import { Story, User, Comment } from '@/types';
 
 const userNamespace = namespace('user');
 
@@ -160,11 +162,13 @@ export default class ViewStory extends Vue {
   @userNamespace.State('isLoggedIn') isLoggedIn!: boolean;
   userStore = getModule(userModule, this.$store);
   story: Story | null = null;
+  comments: Comment[] = [];
   editorOptions = {
     modules: {
       toolbar: false,
     },
   };
+  comment = '';
 
   async created(): Promise<void> {
     const storySlug: string = this.$route.params.story;
@@ -180,11 +184,15 @@ export default class ViewStory extends Vue {
         const story = await getUserStory(storySlug);
         if (story) {
           this.story = story;
+          // Private stories can't have comments
         }
       } else {
         const story = await getSingleStory(storySlug);
         if (story) {
           this.story = story;
+          // Get comments
+          const comments = await getComments(story.slug);
+          this.comments = comments;
         }
       }
     } catch (error) {
@@ -274,7 +282,14 @@ export default class ViewStory extends Vue {
   }
 
   async postComment(){
-    console.log('Hello');
+    if(!this.story) return;
+    if(!this.comment) return;
+    try {
+      const comment = await postComment(this.comment, this.story.slug);
+      this.comments.push(comment)
+    } catch (error) {
+      console.log('An error occurred while posting a comment', error);
+    } 
   }
 }
 </script>
