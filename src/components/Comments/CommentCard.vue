@@ -10,9 +10,21 @@
         <p class="text-gray-700 text-base font-medium">
           {{ comment.user.name }}
         </p>
-        <p class="text-sm text-gray-600">
+        <p class="text-sm text-gray-600" v-if="!editComment">
           {{ comment.content }}
         </p>
+        <form v-if="editComment">
+          <textarea
+            class="border border-gray-400 w-full mt-2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            cols="30"
+            rows="5"
+            placeholder="Add a comment"
+            v-model="commentText"
+          ></textarea>
+          <button type="button" class="text-accent" @click="updateComment">
+            Save Changes
+          </button>
+        </form>
 
         <div class="actions mt-1 flex items-start">
           <button title="Add to favourites" class="flex items-center mr-4">
@@ -27,16 +39,20 @@
             </svg>
             <span class="text-sm text-gray-600">12</span>
           </button>
-          <p
+          <!-- <p
             class="text-sm text-gray-600 mr-2 cursor-pointer"
             @click="
               isLoggedIn ? (replyComment = true) : $router.push('/signin')
             "
           >
             Reply
-          </p>
-          <p class="text-sm text-gray-600 mr-2 cursor-pointer" v-if="modify">
-            Edit
+          </p> -->
+          <p
+            class="text-sm text-gray-600 mr-2 cursor-pointer"
+            v-if="modify"
+            @click="editComment = !editComment"
+          >
+            {{ editComment ? 'Cancel Edit' : 'Edit' }}
           </p>
           <p
             class="text-red-500 text-sm cursor-pointer"
@@ -103,10 +119,21 @@ export default class CommentCard extends Vue {
   @userNamespace.State('isLoggedIn') isLoggedIn!: boolean;
   replyComment = false;
   displayModal = false;
+  editComment = false;
+  commentText = this.comment.content;
 
-  async deleteComment() {
+  deleteComment() {
     if (!this.isLoggedIn) return;
     this.$emit('delete', this.comment.id);
+  }
+
+  updateComment() {
+    if(!this.commentText) return;
+    this.$emit('edit', {
+      commentId: this.comment.id,
+      content: this.commentText,
+    });
+    this.editComment = false;
   }
 
   get modify(): boolean {

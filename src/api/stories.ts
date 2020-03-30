@@ -37,3 +37,10 @@ export async function deleteComment(story: string, commentId: number) {
   const apiResponse: AxiosResponse = await httpClient.delete(`${endpoint}/${story}/comments/${commentId}`);
   return apiResponse.data.data;
 }
+
+export async function updateComment(story: string, commentId: number, comment: string) {
+  const apiResponse = await httpClient.put(`${endpoint}/${story}/comments/${commentId}`, {
+    content: comment,
+  });
+  return apiResponse.data.data;
+}

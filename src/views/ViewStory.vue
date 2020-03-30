@@ -133,6 +133,7 @@
           :key="comment.id"
           :comment="comment"
           @delete="deleteComment"
+          @edit="updateComment"
         />
       </div>
     </div>
@@ -152,6 +153,7 @@ import {
   postComment,
   getComments,
   deleteComment,
+  updateComment
 } from '../api/stories';
 import { getUserStory } from '@/api/user-api-service';
 import { Story, User, Comment } from '@/types';
@@ -290,6 +292,9 @@ export default class ViewStory extends Vue {
   }
 
   async postComment() {
+    if(!this.isLoggedIn) {
+      return this.$router.push('/signin')
+    }
     if (!this.story) return;
     if (!this.comment) return;
     try {
@@ -309,6 +314,20 @@ export default class ViewStory extends Vue {
       );
     } catch (error) {
       console.log('Error occurred while deleting comment', error);
+    }
+  }
+
+  async updateComment(data: { commentId: number; content: string }){
+    if(!this.story) return;
+    try {
+      const updatedComment = await  updateComment(this.story.slug, data.commentId, data.content);
+      this.comments.forEach((comment) => {
+        if(comment.id === updatedComment.id){
+          comment.content = updatedComment.content
+        }
+      })
+    } catch (error) {
+      console.log('An error occurred while updating comment', error);
     }
   }
 }

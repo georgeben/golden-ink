@@ -42,6 +42,9 @@ export default class TopicCard extends Vue {
   userStore = getModule(userModule, this.$store);
 
   async handleFollow() {
+    if(!this.user){
+      return this.$router.push('/signin')
+    }
     if (this.isFollowing) {
       await this.userStore.unfollowTopic(this.topic.slug);
     } else {
@@ -50,6 +53,7 @@ export default class TopicCard extends Vue {
   }
 
   get isFollowing(): boolean {
+    if(!this.user) return false;
     if (this.user.topics?.some((topic) => topic.id === this.topic.id)) {
       return true;
     }

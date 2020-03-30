@@ -176,16 +176,23 @@ export default class FeedItem extends Vue {
   displayModal = false;
 
   async deleteStory() {
+    if(!this.user) return;
     await this.storiesStore.deleteStory(this.story.slug);
   }
 
   get bookmarked(): boolean {
+    if(!this.user){
+      return false;
+    }
     return this.user.bookmarks?.some(
       (bookmark) => bookmark.id === this.story?.id,
     ) as boolean;
   }
 
   get liked(): boolean {
+    if(!this.user){
+      return false;
+    }
     return this.story?.likedBy?.some(
       (user) => user.id === this.user.id,
     ) as boolean;
