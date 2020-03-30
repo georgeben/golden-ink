@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-200 py-24 px-3">
     <div class="bg-white shadow-xl rounded-lg p-3 md:w-3/4 md:mx-auto">
-      <h1 class="font-bold text-2xl">In the beginning of perfection..</h1>
+      <h1 class="font-bold text-2xl">{{story.title}}</h1>
       <div class="author-info flex items-center mb-4">
         <img
           class=" w-8 h-8 object-cover mr-2 rounded-full"
@@ -120,7 +120,7 @@
           rows="5"
           placeholder="Add a comment"
         ></textarea>
-        <button class="bg-accent text-white px-3 py-1">Add comment</button>
+        <button class="bg-accent text-white px-3 py-1" @click="postComment">Add comment</button>
       </div>
 
       <div class="comments">
@@ -194,12 +194,17 @@ export default class ViewStory extends Vue {
   }
 
   get liked(): boolean {
+    if(!this.user) return false;
     return this.story?.likedBy?.some(
       (user) => user.id === this.user.id,
     ) as boolean;
   }
 
   set liked(value) {
+    if(!this.user){
+      this.$router.push('/signin');
+      return;
+    }
     if (value) {
       // The user is liking the story
       this.likeStory();
@@ -229,12 +234,17 @@ export default class ViewStory extends Vue {
   }
 
   get bookmarked(): boolean {
+    if(!this.user) return false;
     return this.user.bookmarks?.some(
       (bookmark) => bookmark.id === this.story?.id,
     ) as boolean;
   }
 
   set bookmarked(value) {
+    if(!this.user){
+      this.$router.push('/signin');
+      return;
+    }
     if (value) {
       this.bookmarkStory();
       if (this.story) {
@@ -261,6 +271,10 @@ export default class ViewStory extends Vue {
     if (this.story) {
       await this.userStore.removeStoryFromBookmarks(this.story.slug);
     }
+  }
+
+  async postComment(){
+    console.log('Hello');
   }
 }
 </script>
