@@ -32,3 +32,8 @@ export async function postComment(comment: string, storySlug: string): Promise<C
   const apiResponse: AxiosResponse = await httpClient.post(`${endpoint}/${storySlug}/comments`, {content: comment});
   return apiResponse.data.data;
 }
+
+export async function deleteComment(story: string, commentId: number) {
+  const apiResponse: AxiosResponse = await httpClient.delete(`${endpoint}/${story}/comments/${commentId}`);
+  return apiResponse.data.data;
+}

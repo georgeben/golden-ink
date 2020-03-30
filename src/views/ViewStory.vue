@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-200 py-24 px-3">
     <div class="bg-white shadow-xl rounded-lg p-3 md:w-3/4 md:mx-auto">
-      <h1 class="font-bold text-2xl">{{story.title}}</h1>
+      <h1 class="font-bold text-2xl">{{ story.title }}</h1>
       <div class="author-info flex items-center mb-4">
         <img
           class=" w-8 h-8 object-cover mr-2 rounded-full"
@@ -122,7 +122,9 @@
           placeholder="Add a comment"
           v-model="comment"
         ></textarea>
-        <button class="bg-accent text-white px-3 py-1" @click="postComment">Add comment</button>
+        <button class="bg-accent text-white px-3 py-1" @click="postComment">
+          Add comment
+        </button>
       </div>
 
       <div class="comments">
@@ -130,6 +132,7 @@
           v-for="comment in comments"
           :key="comment.id"
           :comment="comment"
+          @delete="deleteComment"
         />
       </div>
     </div>
@@ -144,7 +147,12 @@ import BookmarkButton from '@/components/Widgets/Bookmark.vue';
 import { namespace } from 'vuex-class';
 import { getModule } from 'vuex-module-decorators';
 import userModule from '@/store/modules/user';
-import { getSingleStory, postComment, getComments } from '../api/stories';
+import {
+  getSingleStory,
+  postComment,
+  getComments,
+  deleteComment,
+} from '../api/stories';
 import { getUserStory } from '@/api/user-api-service';
 import { Story, User, Comment } from '@/types';
 
@@ -177,7 +185,7 @@ export default class ViewStory extends Vue {
     try {
       if (storyType === 'private') {
         // Ensure that the person is logged in
-        if(!this.isLoggedIn){
+        if (!this.isLoggedIn) {
           this.$router.replace('/signin');
           return;
         }
@@ -202,14 +210,14 @@ export default class ViewStory extends Vue {
   }
 
   get liked(): boolean {
-    if(!this.user) return false;
+    if (!this.user) return false;
     return this.story?.likedBy?.some(
       (user) => user.id === this.user.id,
     ) as boolean;
   }
 
   set liked(value) {
-    if(!this.user){
+    if (!this.user) {
       this.$router.push('/signin');
       return;
     }
@@ -242,14 +250,14 @@ export default class ViewStory extends Vue {
   }
 
   get bookmarked(): boolean {
-    if(!this.user) return false;
+    if (!this.user) return false;
     return this.user.bookmarks?.some(
       (bookmark) => bookmark.id === this.story?.id,
     ) as boolean;
   }
 
   set bookmarked(value) {
-    if(!this.user){
+    if (!this.user) {
       this.$router.push('/signin');
       return;
     }
@@ -281,15 +289,27 @@ export default class ViewStory extends Vue {
     }
   }
 
-  async postComment(){
-    if(!this.story) return;
-    if(!this.comment) return;
+  async postComment() {
+    if (!this.story) return;
+    if (!this.comment) return;
     try {
       const comment = await postComment(this.comment, this.story.slug);
-      this.comments.push(comment)
+      this.comments.unshift(comment);
     } catch (error) {
       console.log('An error occurred while posting a comment', error);
-    } 
+    }
+  }
+
+  async deleteComment(commentId: number) {
+    try {
+      if (!this.story) return;
+      await deleteComment(this.story.slug, commentId);
+      this.comments = this.comments.filter(
+        (comment) => comment.id !== commentId,
+      );
+    } catch (error) {
+      console.log('Error occurred while deleting comment', error);
+    }
   }
 }
 </script>
