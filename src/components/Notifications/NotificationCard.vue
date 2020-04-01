@@ -63,6 +63,9 @@ export default class NotificationCard extends Vue {
         break;
       case 'LIKE':
         if (this.notification.fromUser && this.notification.story) {
+          if(this.notification.comment){
+            return notificationText = `${this.notification.fromUser.name} liked a comment on your story ${this.notification.story.title}`
+          }
           notificationText = `${this.notification.fromUser.name} liked your story ${this.notification.story.title}`;
         }
         break;

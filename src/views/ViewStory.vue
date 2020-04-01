@@ -134,6 +134,8 @@
           :comment="comment"
           @delete="deleteComment"
           @edit="updateComment"
+          @like="handleLikeComment"
+          @unlike="handleUnlikeComment"
         />
       </div>
     </div>
@@ -153,7 +155,9 @@ import {
   postComment,
   getComments,
   deleteComment,
-  updateComment
+  updateComment,
+  likeComment,
+  unlikeComment,
 } from '../api/stories';
 import { getUserStory } from '@/api/user-api-service';
 import { Story, User, Comment } from '@/types';
@@ -292,15 +296,15 @@ export default class ViewStory extends Vue {
   }
 
   async postComment() {
-    if(!this.isLoggedIn) {
-      return this.$router.push('/signin')
+    if (!this.isLoggedIn) {
+      return this.$router.push('/signin');
     }
     if (!this.story) return;
     if (!this.comment) return;
     try {
       const comment = await postComment(this.comment, this.story.slug);
       this.comments.unshift(comment);
-      this.comment = ''
+      this.comment = '';
     } catch (error) {
       console.log('An error occurred while posting a comment', error);
     }
@@ -318,17 +322,48 @@ export default class ViewStory extends Vue {
     }
   }
 
-  async updateComment(data: { commentId: number; content: string }){
-    if(!this.story) return;
+  async updateComment(data: { commentId: number; content: string }) {
+    if (!this.story) return;
     try {
-      const updatedComment = await  updateComment(this.story.slug, data.commentId, data.content);
+      const updatedComment = await updateComment(
+        this.story.slug,
+        data.commentId,
+        data.content,
+      );
       this.comments.forEach((comment) => {
-        if(comment.id === updatedComment.id){
-          comment.content = updatedComment.content
+        if (comment.id === updatedComment.id) {
+          comment.content = updatedComment.content;
         }
-      })
+      });
     } catch (error) {
       console.log('An error occurred while updating comment', error);
+    }
+  }
+
+  async handleLikeComment(commentId: number) {
+    try {
+      const likedBy = await likeComment(this.story?.slug as string, commentId);
+      this.comments.forEach((comment) => {
+        if (comment.id === commentId) {
+          comment.likedBy = likedBy;
+        }
+      });
+    } catch (error) {
+      console.log('An error occurred while liking comment', error);
+    }
+  }
+
+  async handleUnlikeComment(commentId: number) {
+    if (!this.story) return;
+    try {
+      const likedBy = await unlikeComment(this.story.slug, commentId);
+      this.comments.forEach((comment) => {
+        if (comment.id === commentId) {
+          comment.likedBy = likedBy;
+        }
+      });
+    } catch (error) {
+      console.log('An error occurred while un-liking comment', error);
     }
   }
 }

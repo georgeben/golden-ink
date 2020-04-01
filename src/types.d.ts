@@ -61,6 +61,7 @@ export interface Notification {
   forUser: User;
   topic?: Topic;
   story: Story;
+  comment: Comment;
   fromUser: User;
   read: boolean;
   createdAt?: number;
@@ -72,8 +73,9 @@ export interface Comment {
   user: User;
   content: string;
   story: Story;
-  parentCommentId?: Comment;
-  subComments?: Comment[];
+  likedBy: User[];
+  // parentCommentId?: Comment;
+  // subComments?: Comment[];
 }
 
 export interface NewStory{

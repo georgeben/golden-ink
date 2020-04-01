@@ -44,3 +44,13 @@ export async function updateComment(story: string, commentId: number, comment: s
   });
   return apiResponse.data.data;
 }
+
+export async function likeComment(story: string, commentId: number) {
+  const apiResponse = await httpClient.put(`${endpoint}/${story}/comments/${commentId}/likes`);
+  return apiResponse.data.data;
+}
+
+export async function unlikeComment(story: string, commentId: number) {
+  const apiResponse = await httpClient.delete(`${endpoint}/${story}/comments/${commentId}/likes`);
+  return apiResponse.data.data;
+}

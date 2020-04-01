@@ -18,7 +18,6 @@ import { Story } from '../types';
 import FeedItem from '@/components/Feed/FeedItem.vue';
 import TopicList from '@/components/Topic/TopicList.vue';
 import StoryCard from '@/components/Story/StoryCard.vue';
-import { feed } from '../mock-data';
 import { namespace } from 'vuex-class';
 import { getModule } from 'vuex-module-decorators';
 import userModule from '@/store/modules/user';
