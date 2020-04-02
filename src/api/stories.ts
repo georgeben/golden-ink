@@ -13,7 +13,7 @@ export async function getSingleStory(slug: string): Promise<Story| undefined> {
   return apiResponse.data.data;
 }
 
-export async function createStory(newStory: NewStory): Promise<Story> {
+export async function createStory(newStory: FormData): Promise<Story> {
   const apiResponse: AxiosResponse = await httpClient.post(`${endpoint}`, newStory);
   return apiResponse.data.data;
 }

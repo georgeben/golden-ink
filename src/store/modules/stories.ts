@@ -31,7 +31,7 @@ class StoryStore extends VuexModule {
   }
 
   @Action
-  async createStory(newStory: NewStory) {
+  async createStory(newStory: FormData) {
     try {
       const story: Story = await createStory(newStory);
       this.userStories.push(story);

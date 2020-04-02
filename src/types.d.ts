@@ -79,6 +79,7 @@ export interface Comment {
 }
 
 export interface NewStory{
+  [key: string]: any;
   title: string;
   content: string;
   formattedContent: string;

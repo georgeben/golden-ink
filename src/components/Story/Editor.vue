@@ -32,12 +32,36 @@
           placeholder="Title"
           v-model="title"
         />
+        <div class="mt-4 px-3">
+          <input
+            type="file"
+            class="hidden"
+            accept="image/*"
+            ref="imageInput"
+            @change="onFilePicked"
+          />
+          <button class="bg-accent text-white mr-4 p-2" @click="pickFile">
+            Select picture
+          </button>
+          <span>Select a cover photo for your story</span>
+        </div>
+        <div v-if="selectedFile.imageUrl" class="mt-4 px-3 relative">
+          <img class="mx-auto" :src="selectedFile.imageUrl" alt="Cover image for story" />
+          <span
+            class="absolute top-0 right-0 mr-6 mt-2 bg-white rounded-full px-2 cursor-pointer"
+            @click="removeImage"
+            >X</span
+          >
+        </div>
         <vue-editor
           class="h-screen"
           v-model="formattedContent"
           placeholder="Write your story"
           ref="vEditor"
         ></vue-editor>
+        <div class="tags">
+
+        </div>
       </div>
       <div class="mt-4 xs:hidden">
         <div class="options flex flex-col justify-end">
@@ -91,7 +115,9 @@ export default class Editor extends Vue {
   };
   topic = 'tech';
   errorMessage = '';
-
+  $refs!: {
+    imageInput: HTMLFormElement;
+  };
   async created() {
     const storySlug = this.$route.query.story as string;
     if (storySlug) {
@@ -109,9 +135,43 @@ export default class Editor extends Vue {
           // TODO Route to 404 page
         }
       } catch (error) {
-        console.log('An error occured while fetching draft');
+        console.log('An error occurred while fetching draft');
       }
     }
+  }
+
+  pickFile(e: MouseEvent) {
+    e.preventDefault();
+    this.$refs.imageInput.click();
+  }
+
+  onFilePicked(e: any) {
+    this.errorMessage = '';
+    const files = e.target.files;
+    if (files[0] !== undefined) {
+      this.selectedFile.imageName = files[0].name;
+      if (this.selectedFile.imageName.lastIndexOf('.') <= 0) {
+        return;
+      }
+      const fr = new FileReader();
+      fr.readAsDataURL(files[0]);
+      fr.addEventListener('load', () => {
+        this.selectedFile.imageUrl = fr.result as string;
+        this.selectedFile.imageFile = files[0];
+      });
+    } else {
+      this.selectedFile.imageName = '';
+      this.selectedFile.imageFile = '';
+      // this.selectedFile.photoURL = this.currentUser.profilePhotoUrl;
+    }
+  }
+
+  removeImage() {
+    this.selectedFile = {
+      imageName: '',
+      imageUrl: '',
+      imageFile: '',
+    };
   }
 
   async createStory(storyType = 'private') {
@@ -139,15 +199,24 @@ export default class Editor extends Vue {
     // Validate the schema
     try {
       await newStorySchema.validate(story, { abortEarly: true });
+      const newStoryForm = new FormData();
+      Object.keys(story).forEach(key => {
+        newStoryForm.append(key, story[key]);
+      });
+      if(this.selectedFile.imageFile){
+        newStoryForm.append('coverPhoto', this.selectedFile.imageFile);
+      }
       if (this.existingStory) {
-        const updatedStory = await this.storiesStore.updateStory({story, slug: this.existingStory.slug});
+        const updatedStory = await this.storiesStore.updateStory({
+          story,
+          slug: this.existingStory.slug,
+        });
         return this.$router.push('/feed');
       } else {
-        console.log('About to create a effin story');
-
-        const createdStory = await this.storiesStore.createStory(story);
-        console.log('Yaay new story created', createdStory);
-        this.$router.push('/feed');
+        const createdStory = await this.storiesStore.createStory(newStoryForm);
+        if(createdStory){
+          this.$router.push(`/view/${createdStory.slug}`);
+        }
       }
     } catch (error) {
       if (error.name === 'ValidationError') {
@@ -170,5 +239,9 @@ export default class Editor extends Vue {
   border-left: none !important;
   border-right: none !important;
   border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.ql-snow .ql-tooltip {
+  margin-left: 40%;
 }
 </style>
