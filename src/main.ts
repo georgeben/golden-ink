@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Cloudinary from 'cloudinary-vue';
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -10,6 +11,12 @@ import { getModule } from 'vuex-module-decorators';
 import storage from '@/utils/storage';
 import { TOKEN } from './constants';
 import { setAuthHeader } from '@/utils/httpClient';
+
+Vue.use(Cloudinary, {
+  configuration: {
+    cloudName: 'georgeben'
+  }
+})
 
 const userStore = getModule(userModule, store);
 const storiesStore = getModule(storiesModule, store);

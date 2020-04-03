@@ -1,11 +1,11 @@
 <template>
   <div class="bg-gray-200 py-24 px-3">
     <div class="bg-white shadow-xl rounded-lg p-3 md:w-3/4 md:mx-auto">
-      <h1 class="font-bold text-2xl">{{ story.title }}</h1>
-      <div class="author-info flex items-center mb-4">
+      <h1 class="font-bold text-2xl px-3">{{ story.title }}</h1>
+      <div class="author-info flex items-center mb-4 px-3">
         <img
           class=" w-8 h-8 object-cover mr-2 rounded-full"
-          src="https://i.pinimg.com/originals/03/3f/c5/033fc537c42bfe4e2eb5b6e128a2d083.png"
+          :src="story.author.profilePhotoUrl"
           alt=""
         />
         <div>
@@ -17,11 +17,11 @@
           </p>
         </div>
       </div>
-      <div class="story-image sha">
+      <div v-if="story.imageUrl" class="story-image">
         <img
-          src="../assets/images/writing.jpeg"
+          :src="story.imageUrl"
           alt="Story photo"
-          class="sm:mx-auto"
+          class="sm:mx-auto px-3"
         />
       </div>
       <vue-editor

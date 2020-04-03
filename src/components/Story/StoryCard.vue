@@ -1,7 +1,8 @@
 <template>
-  <div class="story-card rounded-story mt-4 shadow-xl p-3" :class="fullWidth? ' w-full': 'w-4/5 mx-auto xs:w-45p md:w-32p'">
-    <div class="story-image">
-      <img src="../../assets/images/tech_bg.png" alt="story image" class="rounded-story">
+  <div class="story-card rounded-story mt-4 shadow-lg p-3" :class="fullWidth? ' w-full': 'w-4/5 mx-auto xs:w-45p md:w-32p'">
+    <div v-if="story.imageUrl" class="story-image">
+      <!-- <img :src="story.imageUrl" alt="story image" class="rounded-story"> -->
+      <cld-image :publicId="story.imageCloudinaryId" width="300" crop="scale" />
     </div>
     <div class="story-details my-1">
       <p class="tag text-sm mt-2 bg-blue-300 text-blue-700 px-3 rounded-full inline-block">#{{story.topic.name}}</p>

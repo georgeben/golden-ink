@@ -14,6 +14,7 @@
     "@types/vue2-editor": "^2.6.0",
     "@types/yup": "^0.26.32",
     "axios": "^0.19.2",
+    "cloudinary-vue": "^1.0.1",
     "core-js": "^3.6.4",
     "sails.io.js": "^1.2.1",
     "socket.io-client": "^2.3.0",
