@@ -1,6 +1,6 @@
 <template>
-  <div class="feed-item xs:flex bg-white shadow-xl rounded-lg my-4 p-3">
-    <div v-if="story.imageUrl" class="story-image w-full mb-3 md:mb-0 xs:w-2/5 md:w-1/5">
+  <div class="feed-item xs:flex items-center bg-white shadow-xl rounded-lg my-4 p-3">
+    <div v-if="story.imageUrl" class="story-image w-full mb-3 md:mb-0 xs:w-2/5 md:w-1/4">
      <!--  <img
         class="w-full h-full object-cover rounded-lg"
         :src="story.imageUrl"
@@ -8,7 +8,7 @@
       /> -->
       <cld-image :publicId="story.imageCloudinaryId" width="300" crop="scale" />
     </div>
-    <div class="feed-details px-3 w-3/4 flex flex-col justify-between"
+    <div class="feed-details px-3 w-full flex flex-col justify-between"
          :class="story.imageUrl? '' : 'w-full'">
       <div class="story-details">
         <p
@@ -40,7 +40,7 @@
             <h1 class="text-xl font-bold">{{ story.title }}</h1>
           </div>
         </router-link>
-        <p class="text-gray-600">{{ story.content.slice(0, 500) }}</p>
+        <p class="text-gray-600">{{ story.content.slice(0, 300) }}...</p>
       </div>
       <div class="flex justify-between flex-wrap">
         <div class="author-info flex items-center my-2">

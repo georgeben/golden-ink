@@ -227,11 +227,16 @@ export default class Editor extends Vue {
         newStoryForm.append('coverPhoto', this.selectedFile.imageFile);
       }
       if (this.existingStory) {
+        if(!this.selectedFile.imageUrl){
+          newStoryForm.append('removeCover', 'true');
+        }
         const updatedStory = await this.storiesStore.updateStory({
-          story,
+          story: newStoryForm,
           slug: this.existingStory.slug,
         });
-        return this.$router.push('/feed');
+        if(updatedStory){
+          this.$router.push(`/view/${updatedStory.slug}`);
+        }
       } else {
         const createdStory = await this.storiesStore.createStory(newStoryForm);
         if (createdStory) {

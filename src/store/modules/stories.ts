@@ -43,7 +43,7 @@ class StoryStore extends VuexModule {
   }
 
   @Action
-  async updateStory(payload: { story: NewStory; slug: string }) {
+  async updateStory(payload: { story: FormData; slug: string }) {
     try {
       const updatedStory: Story = await updateStory(
         payload.story,
