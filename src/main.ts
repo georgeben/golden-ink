@@ -4,6 +4,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './assets/css/tailwind.css';
+import 'vue-select/dist/vue-select.css';
 import userModule from '@/store/modules/user';
 import storiesModule from '@/store/modules/stories';
 import notificationModule from '@/store/modules/notifications';

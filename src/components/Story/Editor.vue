@@ -46,7 +46,11 @@
           <span>Select a cover photo for your story</span>
         </div>
         <div v-if="selectedFile.imageUrl" class="mt-4 px-3 relative">
-          <img class="mx-auto" :src="selectedFile.imageUrl" alt="Cover image for story" />
+          <img
+            class="mx-auto"
+            :src="selectedFile.imageUrl"
+            alt="Cover image for story"
+          />
           <span
             class="absolute top-0 right-0 mr-6 mt-2 bg-white rounded-full px-2 cursor-pointer"
             @click="removeImage"
@@ -59,8 +63,18 @@
           placeholder="Write your story"
           ref="vEditor"
         ></vue-editor>
-        <div class="tags">
-
+        <div class="tags flex items-center">
+          <label class="mr-4">Tag</label>
+          <v-select
+            class="w-full md:w-2/5"
+            v-model="topic"
+            :options="
+              topics.map((topic) => {
+                return { label: topic.name, slug: topic.slug };
+              })
+            "
+            :reduce="(topic) => topic.slug"
+          ></v-select>
         </div>
       </div>
       <div class="mt-4 xs:hidden">
@@ -91,16 +105,19 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import vSelect from 'vue-select';
 import { VueEditor } from 'vue2-editor';
-import { NewStory, Story } from '@/types';
+import { NewStory, Story, Topic } from '@/types';
 import newStorySchema from '@/schemas/newStorySchema';
 import { getModule } from 'vuex-module-decorators';
 import storiesModule from '@/store/modules/stories';
 import { getUserStory } from '@/api/user-api-service';
+import { getTopics } from '@/api/topics';
 
 @Component({
   components: {
     VueEditor,
+    vSelect,
   },
 })
 export default class Editor extends Vue {
@@ -113,7 +130,8 @@ export default class Editor extends Vue {
     imageUrl: '',
     imageFile: '',
   };
-  topic = 'tech';
+  topic = '';
+  topics: Topic[] = [];
   errorMessage = '';
   $refs!: {
     imageInput: HTMLFormElement;
@@ -138,6 +156,8 @@ export default class Editor extends Vue {
         console.log('An error occurred while fetching draft');
       }
     }
+    const topics = await getTopics();
+    this.topics = topics;
   }
 
   pickFile(e: MouseEvent) {
@@ -200,10 +220,10 @@ export default class Editor extends Vue {
     try {
       await newStorySchema.validate(story, { abortEarly: true });
       const newStoryForm = new FormData();
-      Object.keys(story).forEach(key => {
+      Object.keys(story).forEach((key) => {
         newStoryForm.append(key, story[key]);
       });
-      if(this.selectedFile.imageFile){
+      if (this.selectedFile.imageFile) {
         newStoryForm.append('coverPhoto', this.selectedFile.imageFile);
       }
       if (this.existingStory) {
@@ -214,7 +234,7 @@ export default class Editor extends Vue {
         return this.$router.push('/feed');
       } else {
         const createdStory = await this.storiesStore.createStory(newStoryForm);
-        if(createdStory){
+        if (createdStory) {
           this.$router.push(`/view/${createdStory.slug}`);
         }
       }
