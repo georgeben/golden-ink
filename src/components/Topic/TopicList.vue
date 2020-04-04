@@ -18,18 +18,22 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { topics } from '../../mock-data';
 import { Topic } from '../../types';
+import { getTopics } from '@/api/topics';
 @Component
 export default class TopicList extends Vue {
   // TODO Get the topics from the vuex store
-  topics: Topic[] = topics;
+  topics: Topic[] = [];
 
   getRandomColour() {
     const colours = ['yellow', 'purple', 'blue', 'red', 'teal', 'orange'];
     const colourIndex: number = Math.floor(Math.random() * colours.length);
     const colour = colours[colourIndex];
     return colour;
+  }
+  async created() {
+    const topics = await getTopics();
+    this.topics = topics;
   }
 }
 </script>

@@ -135,6 +135,7 @@ export default class Editor extends Vue {
   errorMessage = '';
   $refs!: {
     imageInput: HTMLFormElement;
+    vEditor: any;
   };
   async created() {
     const storySlug = this.$route.query.story as string;
