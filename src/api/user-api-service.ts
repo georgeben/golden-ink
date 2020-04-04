@@ -41,8 +41,8 @@ export async function unlikeStory(storySlug: string): Promise<Story[]> {
   return apiResponse.data.data;
 }
 
-export async function getUserFeed(): Promise<Story[]>{
-  const apiResponse: AxiosResponse = await httpClient.get(`${endpoint}/feed`);
+export async function getUserFeed(payload: { offset: number; limit: number }){
+  const apiResponse: AxiosResponse = await httpClient.get(`${endpoint}/feed?offset=${payload.offset}&limit=${payload.limit}`);
   return apiResponse.data.data;
 }
 

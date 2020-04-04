@@ -1,10 +1,10 @@
 import { httpClient } from '../utils/httpClient';
 import { AxiosResponse  } from 'axios';
-import { Story, NewStory, Comment } from '../types';
+import { Story, Comment } from '../types';
 const endpoint = '/stories'
 
-export async function getStories(): Promise<Story[]> {
-  const apiResponse: AxiosResponse = await httpClient.get(endpoint);
+export async function getStories(payload: { offset: number; limit: number }) {
+  const apiResponse: AxiosResponse = await httpClient.get(`${endpoint}?offset=${payload.offset}&limit=${payload.limit}`);
   return apiResponse.data.data;
 }
 

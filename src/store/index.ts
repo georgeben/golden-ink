@@ -10,7 +10,11 @@ const vuexLocal = new VuexPersist({
   storage: window.localStorage,
   key: 'golden-ink',
   reducer: (state: any) => ({
-    user: state.user,
+    user: {
+      currentUser: state.user.currentUser,
+      isLoggedIn: state.user.isLoggedIn,
+      userFeed: state.user.userFeed,
+    },
     stories: state.stories,
   }),
 })

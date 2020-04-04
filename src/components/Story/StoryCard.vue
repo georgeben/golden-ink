@@ -1,5 +1,5 @@
 <template>
-  <div class="story-card rounded-story mt-4 shadow-lg p-3" :class="fullWidth? ' w-full': 'w-4/5 mx-auto xs:w-45p md:w-32p'">
+  <div class="story-card rounded-story mt-4 shadow-lg p-3" :class="fullWidth? ' w-full': 'w-4/5 mx-4 xs:w-45p md:w-22p'">
     <div v-if="story.imageUrl" class="story-image">
       <!-- <img :src="story.imageUrl" alt="story image" class="rounded-story"> -->
       <cld-image :publicId="story.imageCloudinaryId" width="300" crop="scale" />
@@ -10,7 +10,7 @@
       <p class=" text-gray-600">{{story.content.slice(0, 50)}}..</p>
 
       <div class="author-info flex items-center">
-        <img class="w-8 h-8 rounded-full object-cover mr-2" src="https://i.pinimg.com/originals/03/3f/c5/033fc537c42bfe4e2eb5b6e128a2d083.png" alt="">
+        <img class="w-8 h-8 rounded-full object-cover mr-2" :src="story.author.profilePhotoUrl" alt="Author image">
         <p class="text-gray-700 text-base font-medium">
           {{story.author.name}}
         </p>
