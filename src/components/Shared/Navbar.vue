@@ -14,7 +14,7 @@
         <div class="flex items-center md:w-1/2">
           <div class="">
             <router-link to="/">
-              <img class=" w-12 px-2" src="../../assets/logo.png" alt="Logo" />
+              <img class=" w-16 px-2" src="../../assets/images/logo.png" alt="Logo" />
             </router-link>
           </div>
 
