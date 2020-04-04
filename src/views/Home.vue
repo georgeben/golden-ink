@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto home">
+  <div class="mx-auto home bg-gray-200">
     <div
       class="jumbotron px-3 xs:px-6 md:px-8 lg:mx-4 rounded-b-md shadow-xl py-20 mb-12"
     >
@@ -13,7 +13,7 @@
           </h1>
           <div class="editor-img my-6 md:hidden">
             <img
-              src="../assets/images/writing.jpeg"
+              src="../assets/images/editor.png"
               alt="Text editor"
               class="shadow-xl"
             />
@@ -35,16 +35,16 @@
 
         <div class="editor-img hidden md:block sm:w-2/5 lg:w-1/2 mt-24">
           <img
-            src="../assets/images/writing.jpeg"
+            src="../assets/images/editor.png"
             alt="Text editor"
             class="shadow-xl"
           />
         </div>
       </div>
     </div>
-    <div class="container  xs:mx-auto">
-      <div class="stories flex flex-wrap my-8">
-        <StoryCard v-for="story in stories" :key="story.slug" :story="story" />
+    <div class="container xs:mx-auto px-2">
+      <div class="stories grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-8">
+        <StoryCard class=" h-auto" v-for="story in stories" :key="story.slug" :story="story" />
       </div>
       <button
         v-if="loadMoreStories && stories.length > 0"

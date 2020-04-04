@@ -13,7 +13,7 @@
             {{ story.author.name }}
           </p>
           <p class="date text-xs text-gray-600">
-            6th June, 2020
+            {{new Date(story.createdAt).toDateString()}}
           </p>
         </div>
       </div>

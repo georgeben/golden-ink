@@ -21,7 +21,7 @@
           <p>{{ notificationText }}</p>
         </div>
         <div class="text-xs text-gray-600">
-          <p>{{ notificationTime }}</p>
+          <p>{{new Date(notification.createdAt).toDateString()}}</p>
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@ export default class NotificationCard extends Vue {
 
   @Prop({ required: true }) notification!: Notification;
   // TODO Display correct date of notification
-  notificationTime = 'Yesterday';
+  // notificationTime = 'Yesterday';
 
   updatedNotificationReadStatus(){
     if(this.notification.read) return;
