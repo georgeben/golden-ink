@@ -17,14 +17,18 @@
       </div>
 
     </div>
-    <div class="interests flex flex-wrap my-3 sm:w-2/3 ml-auto">
-      <p
-        class="tag text-sm mt-2 bg-blue-300 text-blue-700 px-3 rounded-full mr-3"
-        v-for="topic in user.topics"
-        :key="topic.slug"
-      >
-        #{{ topic.name }}
-      </p>
+    <div class="sm:w-2/3 ml-auto">
+
+      <div class="interests flex flex-wrap my-3" v-if="user.topics.length > 0">
+        <p
+          class="tag text-sm mt-2 bg-blue-300 text-blue-700 px-3 rounded-full mr-3"
+          v-for="topic in user.topics"
+          :key="topic.slug"
+        >
+          #{{ topic.name }}
+        </p>
+      </div>
+      <p v-else class="text-gray-600">You haven't followed any topic yet. <router-link class="text-blue-500" to="/topics/interests">Explore topics</router-link></p>
     </div>
     <router-link to="/profile/edit">
       <button

@@ -32,6 +32,7 @@ import { getModule } from 'vuex-module-decorators';
 import { namespace } from 'vuex-class';
 import { User } from '../types';
 import userModule from '@/store/modules/user';
+import notificationModule from '@/store/modules/notifications';
 const userNamespace = namespace('user');
 
 @Component({
@@ -41,6 +42,7 @@ const userNamespace = namespace('user');
 })
 export default class SignIn extends Vue {
   userStore = getModule(userModule, this.$store);
+  notificationStore = getModule(notificationModule, this.$store);
   @userNamespace.State
   public currentUser!: User;
 
@@ -61,6 +63,7 @@ export default class SignIn extends Vue {
 
     if (this.currentUser) {
       // User signed in
+      this.notificationStore.getNotifications();
       if (
         this.currentUser.bio &&
         this.currentUser.username &&

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import SignIn from '../views/SignIn.vue';
-import Onboarding from '../views/Onboarding.vue';
+import ViewProfile from '../views/ViewProfile.vue';
 import UpdateProfile from '@/components/UserProfile/UpdateProfile.vue';
 import FollowTopics from '@/components/Topic/FollowTopics.vue';
 import Feed from '../views/Feed.vue';
@@ -12,6 +12,9 @@ import Saved from '../views/Saved.vue';
 import Settings from '../views/Settings.vue';
 import ViewStory from '../views/ViewStory.vue';
 import Editor from '@/components/Story/Editor.vue'
+import TopicPage from '@/views/TopicPage.vue';
+import SearchResults from '@/views/SearchResults.vue';
+import PageNotFound from '@/views/PageNotFound.vue';
 import store from '../store';
 import userModule from '../store/modules/user';
 import { getModule } from 'vuex-module-decorators';
@@ -42,12 +45,27 @@ const routes = [
     }
   },
   {
+    path: '/topics/:topic',
+    name: 'topic-page',
+    component: TopicPage,
+  },
+  {
     path: '/feed',
     name: 'feed',
     component: Feed,
     meta: {
       requiresAuth: true,
     }
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: SearchResults
+  },
+  {
+    path: '/writers/:username',
+    name: 'view-profile',
+    component: ViewProfile,
   },
   {
     path: '/profile',
@@ -79,6 +97,11 @@ const routes = [
     component: ViewStory,
   },
   {
+    path: '/draft/:story',
+    name: 'draft',
+    component: ViewStory,
+  },
+  {
     path: '/settings',
     name: 'settings',
     component: Settings,
@@ -95,20 +118,17 @@ const routes = [
     }
   },
   {
-    path: '/new-story',
-    name: 'new-story',
+    path: '/write',
+    name: 'write-story',
     component: Editor,
     meta: {
       requiresAuth: true,
     },
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '*',
+    name: 'page-not-found',
+    component: PageNotFound
   }
 ]
 

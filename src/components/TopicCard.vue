@@ -10,9 +10,11 @@
       />
     </div>
     <div class="topic-detail p-4 flex justify-between items-center">
-      <h1 class=" text-xl font-bold">{{ topic.name }}</h1>
+      <router-link :to="`/topics/${topic.slug}`">
+        <h1 class=" text-xl font-bold">{{ topic.name }}</h1>
+      </router-link>
       <button
-        class=" border-2 border-accent px-5 py-1 rounded-full focus:outline-none focus:shadow-outline"
+        class=" border-2 border-accent px-4 py-1 rounded-full focus:outline-none focus:shadow-outline"
         :class="
           isFollowing ? 'bg-accent border-accent text-white' : 'text-accent'
         "
@@ -40,6 +42,9 @@ export default class TopicCard extends Vue {
   userStore = getModule(userModule, this.$store);
 
   async handleFollow() {
+    if(!this.user){
+      return this.$router.push('/signin')
+    }
     if (this.isFollowing) {
       await this.userStore.unfollowTopic(this.topic.slug);
     } else {
@@ -48,6 +53,7 @@ export default class TopicCard extends Vue {
   }
 
   get isFollowing(): boolean {
+    if(!this.user) return false;
     if (this.user.topics?.some((topic) => topic.id === this.topic.id)) {
       return true;
     }

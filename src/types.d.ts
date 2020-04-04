@@ -45,6 +45,7 @@ export interface Story {
   draft: boolean;
   private: boolean;
   slug: string;
+  imageUrl?: string;
   content: string;
   formattedContent: string;
   title: string;
@@ -59,8 +60,10 @@ export interface Notification {
   actionType: string;
   forUser: User;
   topic?: Topic;
-  story?: Story;
-  fromUser?: User;
+  story: Story;
+  comment: Comment;
+  fromUser: User;
+  read: boolean;
   createdAt?: number;
   updatedAt?: number;
 }
@@ -70,11 +73,13 @@ export interface Comment {
   user: User;
   content: string;
   story: Story;
-  parentCommentId?: Comment;
-  subComments?: Comment[];
+  likedBy: User[];
+  // parentCommentId?: Comment;
+  // subComments?: Comment[];
 }
 
 export interface NewStory{
+  [key: string]: any;
   title: string;
   content: string;
   formattedContent: string;
@@ -82,4 +87,10 @@ export interface NewStory{
   imageUrl?: string;
   draft?: boolean;
   private?: boolean;
+}
+
+export interface SearchResults {
+  users: User[];
+  topics: Topic[];
+  stories: Story[];
 }

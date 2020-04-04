@@ -21,6 +21,7 @@ class UserStore extends VuexModule {
   currentUser: User | null = null;
   isLoggedIn = false;
   userFeed: Story[] = [];
+  loadMoreFeedActivity = true;
 
   @Mutation
   public SET_USER(user: User): void {
@@ -47,6 +48,16 @@ class UserStore extends VuexModule {
   @Mutation
   SET_USER_FEED(feed: Story[]): void {
     this.userFeed = feed;
+  }
+
+  @Mutation
+  ADD_TO_FEED(feed: Story[]) {
+    this.userFeed = [...this.userFeed, ...feed]
+  }
+
+  @Mutation
+  SET_LOAD_MORE_FEED_ACTIVITY(status: boolean) {
+    this.loadMoreFeedActivity = status;
   }
 
   @Mutation
@@ -147,10 +158,20 @@ class UserStore extends VuexModule {
   }
 
   @Action
-  async getUserFeed() {
+  async getUserFeed(payload: { offset: number; limit: number }) {
     try {
-      const userFeed = await getUserFeed();
-      this.context.commit('SET_USER_FEED', userFeed);
+      const response = await getUserFeed(payload);
+      const userFeed = response.feed;
+      if (this.userFeed.length >= response.count) {
+        this.context.commit('SET_LOAD_MORE_FEED_ACTIVITY', false);
+      }
+      if (userFeed.length > 0) {
+        if (payload.offset === 0) {
+          this.context.commit('SET_USER_FEED', userFeed);
+        } else if (payload.offset > 0) {
+          this.context.commit('ADD_TO_FEED', userFeed)
+        }
+      }
     } catch (error) {
       console.log('Failed to fetch feed', error);
     }

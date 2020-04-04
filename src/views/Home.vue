@@ -1,6 +1,8 @@
 <template>
-  <div class="mx-auto home">
-    <div class="jumbotron px-3 xs:px-6 md:px-8 lg:mx-4 rounded-b-md shadow-xl py-20 mb-12">
+  <div class="mx-auto home bg-gray-200">
+    <div
+      class="jumbotron px-3 xs:px-6 md:px-8 lg:mx-4 rounded-b-md shadow-xl py-20 mb-12"
+    >
       <div class=" md:flex">
         <div class="intro-text mt-20 md:w-3/5 lg:w-1/2">
           <h1
@@ -10,19 +12,19 @@
             <span class="text-accent underline">writers</span>
           </h1>
           <div class="editor-img my-6 md:hidden">
-          <img
-            src="../assets/images/editor.jpg"
-            alt="Text editor"
-            class="shadow-xl"
-          />
-        </div>
+            <img
+              src="../assets/images/editor.png"
+              alt="Text editor"
+              class="shadow-xl"
+            />
+          </div>
           <p
             class="text-xl text-gray-800 leading-relaxed mb-6 w-11/12 md:w-1/2"
           >
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi
             eligendi teri duant.
           </p>
-          <router-link to="/new-story">
+          <router-link to="/write">
             <button
               class="cta bg-accent hover:bg-blue-600 w-40 text-white p-3 shadow-xl rounded-md"
             >
@@ -33,17 +35,24 @@
 
         <div class="editor-img hidden md:block sm:w-2/5 lg:w-1/2 mt-24">
           <img
-            src="../assets/images/editor.jpg"
+            src="../assets/images/editor.png"
             alt="Text editor"
             class="shadow-xl"
           />
         </div>
       </div>
     </div>
-    <div class="container  xs:mx-auto">
-      <div class="stories flex flex-wrap my-8">
-        <StoryCard v-for="story in stories" :key="story.slug" :story="story" />
+    <div class="container xs:mx-auto px-2">
+      <div class="stories grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-8">
+        <StoryCard class=" h-auto" v-for="story in stories" :key="story.slug" :story="story" />
       </div>
+      <button
+        v-if="loadMoreStories && stories.length > 0"
+        class=" border border-accent text-accent rounded-full py-2 px-3 block mx-auto"
+        @click="loadStories"
+      >
+        Load more
+      </button>
 
       <div class="topics flex flex-wrap">
         <TopicCard v-for="topic in topics" :key="topic.slug" :topic="topic" />
@@ -72,47 +81,39 @@ export default class Home extends Vue {
   private text = 'This is my homepage. Yeah';
   userModule = getModule(UserModule, this.$store);
 
-  topic: Topic = {
-    id: 1,
-    name: 'Tech',
-    imageUrl:
-      'https://cdn.dribbble.com/users/879147/screenshots/7906715/media/1b1d2ef35dab525ed63b8b5816813132.jpg',
-    slug: 'tech',
-    followerCount: 30,
-  };
-
-  user: User = {
-    createdAt: 1582057187505,
-    updatedAt: 1582295056415,
-    id: 1,
-    name: 'George Kurobara',
-    email: 'surplusforreal@gmail.com',
-    username: 'changedman',
-    slug: 'george-kurobara',
-    headline: 'Software Craftsman',
-    bio: 'A really soft boy',
-    profilePhotoUrl:
-      'https://lh6.googleusercontent.com/-oreYI0JA7Yw/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdk3M5DboNPVfg5dgyw4ikm57WcAA/s96-c/photo.jpg',
-    emailNotificationSettings: {
-      daily: false,
-      weekly: true,
-      reactions: true,
-    },
-  };
-
   stories: Story[] = [];
   topics: Topic[] = [];
-
-  async created(): Promise<void> {
+  limit = 16;
+  offset = 0;
+  loadMoreStories = true;
+  async created(){
     try {
-      const stories = await getStories();
-      console.log(stories);
+      const { stories, count } = await getStories({
+        offset: this.offset,
+        limit: this.limit,
+      });
       this.stories = stories;
+      if (this.stories.length >= count) {
+        this.loadMoreStories = false;
+      }
 
       const topics = await getTopics();
       this.topics = topics;
     } catch (error) {
       console.log('Fuck! an error', error);
+    }
+  }
+
+  async loadStories() {
+    if (!this.loadMoreStories) return;
+    this.offset += this.limit;
+    const { stories, count } = await getStories({
+      offset: this.offset,
+      limit: this.limit,
+    });
+    this.stories = [...this.stories, ...stories];
+    if (this.stories.length >= count) {
+      this.loadMoreStories = false;
     }
   }
 }

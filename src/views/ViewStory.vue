@@ -1,11 +1,11 @@
 <template>
   <div class="bg-gray-200 py-24 px-3">
     <div class="bg-white shadow-xl rounded-lg p-3 md:w-3/4 md:mx-auto">
-      <h1 class="font-bold text-2xl">In the beginning of perfection..</h1>
-      <div class="author-info flex items-center mb-4">
+      <h1 class="font-bold text-2xl px-3">{{ story.title }}</h1>
+      <div class="author-info flex items-center mb-4 px-3">
         <img
           class=" w-8 h-8 object-cover mr-2 rounded-full"
-          src="https://i.pinimg.com/originals/03/3f/c5/033fc537c42bfe4e2eb5b6e128a2d083.png"
+          :src="story.author.profilePhotoUrl"
           alt=""
         />
         <div>
@@ -13,15 +13,15 @@
             {{ story.author.name }}
           </p>
           <p class="date text-xs text-gray-600">
-            6th June, 2020
+            {{new Date(story.createdAt).toDateString()}}
           </p>
         </div>
       </div>
-      <div class="story-image sha">
+      <div v-if="story.imageUrl" class="story-image">
         <img
-          src="../assets/images/writing.jpeg"
+          :src="story.imageUrl"
           alt="Story photo"
-          class="sm:mx-auto"
+          class="sm:mx-auto px-3"
         />
       </div>
       <vue-editor
@@ -32,7 +32,7 @@
       >
       </vue-editor>
       <p class="text-sm">Published in {{ story.topic.name }}</p>
-      <div class="actions flex items-center mt-2">
+      <div class="actions flex items-center mt-2" v-if="!story.private">
         <div class="flex items-center mr-2">
           <input
             type="checkbox"
@@ -111,6 +111,7 @@
     </div>
     <div
       class="comment-section bg-white shadow-xl rounded-lg mt-6 p-3 md:w-3/4 md:mx-auto"
+      v-if="!story.private"
     >
       <h3 class="text-lg font-semibold">Comments</h3>
       <div class="add-comment mb-4">
@@ -119,15 +120,22 @@
           cols="30"
           rows="5"
           placeholder="Add a comment"
+          v-model="comment"
         ></textarea>
-        <button class="bg-accent text-white px-3 py-1">Add comment</button>
+        <button class="bg-accent text-white px-3 py-1" @click="postComment">
+          Add comment
+        </button>
       </div>
 
       <div class="comments">
         <CommentCard
-          v-for="comment in story.comments"
+          v-for="comment in comments"
           :key="comment.id"
           :comment="comment"
+          @delete="deleteComment"
+          @edit="updateComment"
+          @like="handleLikeComment"
+          @unlike="handleUnlikeComment"
         />
       </div>
     </div>
@@ -142,8 +150,17 @@ import BookmarkButton from '@/components/Widgets/Bookmark.vue';
 import { namespace } from 'vuex-class';
 import { getModule } from 'vuex-module-decorators';
 import userModule from '@/store/modules/user';
-import { getSingleStory } from '../api/stories';
-import { Story, User } from '@/types';
+import {
+  getSingleStory,
+  postComment,
+  getComments,
+  deleteComment,
+  updateComment,
+  likeComment,
+  unlikeComment,
+} from '../api/stories';
+import { getUserStory } from '@/api/user-api-service';
+import { Story, User, Comment } from '@/types';
 
 const userNamespace = namespace('user');
 
@@ -156,21 +173,41 @@ const userNamespace = namespace('user');
 })
 export default class ViewStory extends Vue {
   @userNamespace.State('currentUser') user!: User;
+  @userNamespace.State('isLoggedIn') isLoggedIn!: boolean;
   userStore = getModule(userModule, this.$store);
   story: Story | null = null;
+  comments: Comment[] = [];
   editorOptions = {
     modules: {
       toolbar: false,
     },
   };
+  comment = '';
 
   async created(): Promise<void> {
     const storySlug: string = this.$route.params.story;
+    const storyType = this.$route.query.t;
     // Get the story
     try {
-      const story = await getSingleStory(storySlug);
-      if (story) {
-        this.story = story;
+      if (storyType === 'private') {
+        // Ensure that the person is logged in
+        if (!this.isLoggedIn) {
+          this.$router.replace('/signin');
+          return;
+        }
+        const story = await getUserStory(storySlug);
+        if (story) {
+          this.story = story;
+          // Private stories can't have comments
+        }
+      } else {
+        const story = await getSingleStory(storySlug);
+        if (story) {
+          this.story = story;
+          // Get comments
+          const comments = await getComments(story.slug);
+          this.comments = comments;
+        }
       }
     } catch (error) {
       // TODO Handle error
@@ -179,12 +216,17 @@ export default class ViewStory extends Vue {
   }
 
   get liked(): boolean {
+    if (!this.user) return false;
     return this.story?.likedBy?.some(
       (user) => user.id === this.user.id,
     ) as boolean;
   }
 
   set liked(value) {
+    if (!this.user) {
+      this.$router.push('/signin');
+      return;
+    }
     if (value) {
       // The user is liking the story
       this.likeStory();
@@ -214,12 +256,17 @@ export default class ViewStory extends Vue {
   }
 
   get bookmarked(): boolean {
+    if (!this.user) return false;
     return this.user.bookmarks?.some(
       (bookmark) => bookmark.id === this.story?.id,
     ) as boolean;
   }
 
   set bookmarked(value) {
+    if (!this.user) {
+      this.$router.push('/signin');
+      return;
+    }
     if (value) {
       this.bookmarkStory();
       if (this.story) {
@@ -245,6 +292,78 @@ export default class ViewStory extends Vue {
   async removeStoryFromBookmark() {
     if (this.story) {
       await this.userStore.removeStoryFromBookmarks(this.story.slug);
+    }
+  }
+
+  async postComment() {
+    if (!this.isLoggedIn) {
+      return this.$router.push('/signin');
+    }
+    if (!this.story) return;
+    if (!this.comment) return;
+    try {
+      const comment = await postComment(this.comment, this.story.slug);
+      this.comments.unshift(comment);
+      this.comment = '';
+    } catch (error) {
+      console.log('An error occurred while posting a comment', error);
+    }
+  }
+
+  async deleteComment(commentId: number) {
+    try {
+      if (!this.story) return;
+      await deleteComment(this.story.slug, commentId);
+      this.comments = this.comments.filter(
+        (comment) => comment.id !== commentId,
+      );
+    } catch (error) {
+      console.log('Error occurred while deleting comment', error);
+    }
+  }
+
+  async updateComment(data: { commentId: number; content: string }) {
+    if (!this.story) return;
+    try {
+      const updatedComment = await updateComment(
+        this.story.slug,
+        data.commentId,
+        data.content,
+      );
+      this.comments.forEach((comment) => {
+        if (comment.id === updatedComment.id) {
+          comment.content = updatedComment.content;
+        }
+      });
+    } catch (error) {
+      console.log('An error occurred while updating comment', error);
+    }
+  }
+
+  async handleLikeComment(commentId: number) {
+    try {
+      const likedBy = await likeComment(this.story?.slug as string, commentId);
+      this.comments.forEach((comment) => {
+        if (comment.id === commentId) {
+          comment.likedBy = likedBy;
+        }
+      });
+    } catch (error) {
+      console.log('An error occurred while liking comment', error);
+    }
+  }
+
+  async handleUnlikeComment(commentId: number) {
+    if (!this.story) return;
+    try {
+      const likedBy = await unlikeComment(this.story.slug, commentId);
+      this.comments.forEach((comment) => {
+        if (comment.id === commentId) {
+          comment.likedBy = likedBy;
+        }
+      });
+    } catch (error) {
+      console.log('An error occurred while un-liking comment', error);
     }
   }
 }
