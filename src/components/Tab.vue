@@ -1,5 +1,5 @@
 <template>
- <div class="container">
+ <div class="container mx-auto">
     <div v-show="isActive"><slot></slot></div>
  </div>
 </template>

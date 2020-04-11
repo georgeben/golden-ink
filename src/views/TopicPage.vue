@@ -6,7 +6,7 @@
           <img
             :src="topic.imageUrl"
             alt="Topic image"
-            class="topic-img w-32 sm:w-48 md:w-64 rounded-md shadow-lg mr-4"
+            class="topic-img w-32 h-48 sm:w-48 md:w-64 rounded-md shadow-lg mr-4"
           />
           <div>
             <h2 class=" text-2xl font-semibold">{{ topic.name }}</h2>
