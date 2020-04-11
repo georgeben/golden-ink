@@ -2,7 +2,7 @@
   <div>
     <h3 class="text-lg font-semibold">Your Topics</h3>
     <div class="topic-list bg-white rounded-lg shadow-xl p-4 mt-4">
-      <p v-if="topics.length <= 0">
+      <p v-if="user.topics.length <= 0">
         You haven't followed any topic yet.
         <router-link class="text-blue-500" to="/topics/interests"
           >Explore topics</router-link
@@ -14,7 +14,7 @@
       >
         <router-link
           :to="`/topics/${topic.slug}`"
-          v-for="topic in topics"
+          v-for="topic in user.topics"
           :key="topic.slug"
         >
           <p
@@ -30,17 +30,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Topic } from '../../types';
+import { Topic, User } from '../../types';
 import { getTopics } from '@/api/topics';
+import { namespace } from 'vuex-class';
+const userNamespace = namespace('user');
 @Component
 export default class TopicList extends Vue {
   // TODO Get the topics from the vuex store
-  topics: Topic[] = [];
-
-  async created() {
-    const topics = await getTopics();
-    this.topics = topics;
-  }
+  @userNamespace.State('currentUser') user!: User;
 }
 </script>
 
