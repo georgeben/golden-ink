@@ -1,5 +1,5 @@
 <template>
-  <div class="feed-item xs:flex items-center bg-white shadow-xl rounded-lg my-4 p-3">
+  <div class="feed-item xs:flex items-start bg-white shadow-xl rounded-lg my-4 p-3">
     <div v-if="story.imageUrl" class="story-image w-full mb-3 md:mb-0 xs:w-2/5 md:w-1/4">
      <!--  <img
         class="w-full h-full object-cover rounded-lg"

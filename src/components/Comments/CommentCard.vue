@@ -3,7 +3,7 @@
     <div class="author-info flex items-start my-2">
       <img
         class=" w-8 h-8 object-cover mr-2 rounded-full"
-        src="https://i.pinimg.com/originals/03/3f/c5/033fc537c42bfe4e2eb5b6e128a2d083.png"
+        :src="user.profilePhotoUrl"
         alt=""
       />
       <div>

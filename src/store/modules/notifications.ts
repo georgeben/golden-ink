@@ -62,6 +62,7 @@ class NotificationStore extends VuexModule {
       }
 
       console.log('Successfully subscribed.');
+      console.log('Notifications', body.data)
       this.context.commit('SET_NOTIFICATIONS', body.data);
 
       io.socket.on('notifications', (msg) => {
