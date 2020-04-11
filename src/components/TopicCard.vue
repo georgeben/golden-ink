@@ -1,6 +1,6 @@
 <template>
   <div
-    class="topic bg-white shadow-xl rounded-md w-full mx-auto my-4"
+    class="topic bg-white shadow-xl rounded-md w-full mx-auto my-4 object-cover"
   >
     <div class="topic-img">
       <img
