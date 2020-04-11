@@ -1,12 +1,12 @@
 <template>
   <div
-    class="topic bg-white shadow-xl rounded-md w-full mx-auto my-4 object-cover"
+    class="topic bg-white shadow-xl rounded-md w-full mx-auto my-4"
   >
     <div class="topic-img">
       <img
         :src="topic.imageUrl"
         alt="Topic image"
-        class="w-full h-56 rounded-t-md"
+        class="w-full h-56 rounded-t-md object-cover"
       />
     </div>
     <div class="topic-detail p-4 flex justify-between items-center">
