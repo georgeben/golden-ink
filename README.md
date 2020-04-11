@@ -13,7 +13,13 @@ Share your stories with the world, follow the topics you care about without all 
 - Easily bookmark your favourite stories to read later
 
 ### Screenshots
-
+![Homepage](screenshots/home.png)
+![User feed](screenshots/feed.png)
+![Topic page](screenshots/topics.png)
+![User profile page](screenshots/userprofile.png)
+![New story page](screenshots/write.png)
+![Read story page](screenshots/write.png)
+![Notifications](screenshots/notificartions.png)
 
 
 ### Technologies
@@ -32,3 +38,6 @@ Share your stories with the world, follow the topics you care about without all 
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Author
+George Benjamin
