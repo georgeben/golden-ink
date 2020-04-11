@@ -26,6 +26,9 @@
           <p v-if="errorMessage" class="mb-4 text-sm text-red-600">
             {{errorMessage}}
           </p>
+          <p v-if="successMessage" class="mb-4 text-sm text-green-600">
+            {{successMessage}}
+          </p>
           <InputGroup
             class="mb-4"
             label="Name"
@@ -91,12 +94,19 @@ export default class CompleteProfile extends Vue {
   };
 
   errorMessage = '';
+  successMessage = '';
 
   selectedFile = {
     imageName: '',
     photoURL: this.userStore.currentUser?.profilePhotoUrl,
     imageFile: '',
   };
+
+  created(){
+    if(!this.currentUser.bio || !this.currentUser.headline){
+      this.errorMessage = 'Please complete your profile';
+    }
+  }
 
   pickFile(e: MouseEvent) {
     e.preventDefault();
@@ -148,9 +158,7 @@ export default class CompleteProfile extends Vue {
 
       // upload the data
       const updatedUser = await this.userStore.updateUserProfile(userProfileForm);
-      console.log({
-        updatedUser
-      })
+      this.successMessage = 'Profile updated successfully!'
     } catch (error) {
       if (error.name === 'ValidationError') {
         this.errorMessage = error.message;

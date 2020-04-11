@@ -1,7 +1,7 @@
 <template>
-  <div class="mx-auto home bg-gray-200">
+  <div class="home bg-gray-200">
     <div
-      class="jumbotron px-3 xs:px-6 md:px-8 lg:mx-4 rounded-b-md shadow-xl py-20 mb-12"
+      class="jumbotron px-3 xs:px-6 md:px-8 rounded-b-md shadow-xl py-20 mb-12"
     >
       <div class=" md:flex">
         <div class="intro-text mt-20 md:w-3/5 lg:w-1/2">
@@ -21,8 +21,7 @@
           <p
             class="text-xl text-gray-800 leading-relaxed mb-6 w-11/12 md:w-1/2"
           >
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi
-            eligendi teri duant.
+            Share your stories with the world, follow the topics you care about without all the noise.
           </p>
           <router-link to="/write">
             <button

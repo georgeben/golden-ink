@@ -9,7 +9,7 @@
       ]"
     >
       <div
-        class="container mx-auto py-2 md:flex md:justify-between md:items-center"
+        class="mx-auto py-2 px-4 md:flex md:justify-between md:items-center"
       >
         <div class="flex items-center md:w-1/2">
           <div class="">

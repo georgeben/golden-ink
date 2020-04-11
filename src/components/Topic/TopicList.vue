@@ -2,7 +2,8 @@
   <div>
     <h3 class="text-lg font-semibold">Your Topics</h3>
     <div class="topic-list bg-white rounded-lg shadow-xl p-4 mt-4">
-      <div class="flex md:flex-col overflow-x-scroll md:overflow-x-hidden">
+      <p v-if="topics.length <= 0">You haven't followed any topic yet. <router-link class="text-blue-500" to="/topics/interests">Explore topics</router-link></p>
+      <div v-else class="flex md:flex-col overflow-x-scroll md:overflow-x-hidden">
         <p
           class="py-1 my-2 px-4 rounded-full topic mr-3"
           :class="`bg-${(col = getRandomColour())}-300 text-${col}-700`"

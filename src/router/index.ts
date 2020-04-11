@@ -123,6 +123,7 @@ const routes = [
     component: Editor,
     meta: {
       requiresAuth: true,
+      completeProfile: true,
     },
   },
   {
@@ -145,6 +146,14 @@ router.beforeEach((to, from, next) => {
     next({
       path: '/'
     })
+  }
+
+  if (loggedIn && user && to.matched.some(record => record.meta.completeProfile)) {
+    if (!user.bio || !user.headline) {
+      next({
+        path: '/profile/edit',
+      })
+    }
   }
 
   // Don't allow guests (people who have not signed in to view protected routes)

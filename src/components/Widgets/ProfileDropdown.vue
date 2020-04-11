@@ -45,6 +45,10 @@ export default class DropDown extends Vue {
 
   dropDownLinks = [
     {
+      title: 'Your feed',
+      href: '/feed',
+    },
+    {
       title: 'Your profile',
       href: '/profile',
     },

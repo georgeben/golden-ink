@@ -28,6 +28,7 @@
               v-for="user in searchResults.users"
               :key="user.id"
               :user="user"
+              class="my-2"
             />
           </div>
           <h1 v-else class="text-center mt-8 font-medium">

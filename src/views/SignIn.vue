@@ -11,10 +11,12 @@
       class="bg-white shadow-xl rounded-lg p-4 w-11/12 md:w-5/12 mx-auto py-20"
     >
       <h1 class="text-center text-xl font-semibold pb-4 mx-auto">Sign in</h1>
-      <p class="mb-4">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam vel aut
-        nisi consectetur.
-      </p>
+        <ul class="mb-4 ml-4 leading-relaxed list-disc">
+          <li>Get started easily by signing in with your Google account</li>
+          <li>Make use of our powerful WYSIWYG editor</li>
+          <li>Get realtime updates when readers interact with your stories</li>
+          <li>Follow your favourite topics.</li>
+        </ul>
       <GoogleLogIn
         :params="params"
         :renderParams="renderParams"

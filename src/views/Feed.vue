@@ -3,6 +3,10 @@
     <TopicList class="w-full md:w-1/6 mb-4" />
     <div class="main-feed w-full md:w-3/5 mb-4">
       <h3 class="text-lg font-semibold">Your Feed</h3>
+      <div v-if="feed.length <= 0" class="mt-4 bg-white shadow-xl rounded-lg pt-3">
+        <h3 class=" text-lg text-center mb-3">Your feed is empty, follow some topics to begin</h3>
+        <img src="../assets/images/emptyfeed.png" class="" alt="Empty feed image">
+      </div>
       <FeedItem v-for="story in feed" :key="story.slug" :story="story" />
       <button v-if="loadMore" class="bg-accent text-white py-2 px-3 block mx-auto" @click="loadFeed">Load more</button>
     </div>
